@@ -61,7 +61,7 @@ public class TestTower : MonoBehaviour
                 actEnemies = actEnemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();    // Orders enemies by distance
                 actEnemies[0].SendMessage("TakeDamage", damage);                                        // Makes first enemy in list take damage
                 Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
-                BeamEnemy(actEnemies[0].transform.position);             // Draws beam for visuals
+                BeamEnemy(actEnemies[0].transform.position);                                            // Draws beam for visuals
             }
         }
     }
@@ -71,7 +71,7 @@ public class TestTower : MonoBehaviour
         LineRenderer beam = gameObject.AddComponent<LineRenderer>();    // Creates line renderer
         beam.material = beamMat;                                        // Assigns red material
         beam.startWidth = 0.2f;                                         // Defines width of beam at start
-        beam.endWidth = 0.2f;                                           // Defines width of beam at end
+        beam.endWidth = 0.1f;                                           // Defines width of beam at end
         beam.positionCount = 2;                                         // Defines number of beam vertices
 
         beam.SetPosition(0, gameObject.transform.position);             // Define start of beam from tower
