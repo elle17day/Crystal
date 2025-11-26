@@ -52,4 +52,9 @@ public class TestEnemyStats : MonoBehaviour
     {
         currentHealth -= damage;
     }
+
+    public bool IsDead()
+    {
+        return isDead;
+    }
 }
