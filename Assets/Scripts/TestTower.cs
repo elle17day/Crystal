@@ -11,6 +11,7 @@ public class TestTower : MonoBehaviour
     [SerializeField] private float damage = 20f;
     [SerializeField] private float fireRate = 4f;
     [SerializeField] private float range = 300f;
+    [SerializeField] private Material beamMat;
 
     private float lastShotTime = 0;
 
@@ -45,11 +46,25 @@ public class TestTower : MonoBehaviour
             }
             if (enemy.GetComponent<TestEnemyStats>() == null )
             {
-                Debug.Log(enemy.transform.name + " popped!");
+                Debug.Log(enemy.transform.name + " popped as not enemy!");
             }
         }
         actEnemies[0].SendMessage("TakeDamage",damage);
         Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " +  damage + " damage.");
+        BeamEnemy(gameObject.transform.position, actEnemies[0].transform.position);
+    }
+
+    void BeamEnemy(Vector3 tower, Vector3 enemy)
+    {
+        LineRenderer beam = gameObject.AddComponent<LineRenderer>();
+        beam.material = beamMat;
+        beam.startWidth = 0.2f;
+        beam.endWidth = 0.2f;
+        beam.positionCount = 2;
+
+        beam.SetPosition(0, tower);
+        beam.SetPosition(1, enemy);
+        Destroy(beam, 0.5f);
     }
 
 }
