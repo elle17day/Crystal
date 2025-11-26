@@ -58,14 +58,15 @@ public class TestTower : MonoBehaviour
             }
             if (actEnemies.Count > 0)       // Checks for actual enemies
             {
+                actEnemies = actEnemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();    // Orders enemies by distance
                 actEnemies[0].SendMessage("TakeDamage", damage);                                        // Makes first enemy in list take damage
                 Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
-                BeamEnemy(gameObject.transform.position, actEnemies[0].transform.position);             // Draws beam for visuals
+                BeamEnemy(actEnemies[0].transform.position);             // Draws beam for visuals
             }
         }
     }
 
-    void BeamEnemy(Vector3 tower, Vector3 enemy)
+    void BeamEnemy(Vector3 enemy)
     {
         LineRenderer beam = gameObject.AddComponent<LineRenderer>();    // Creates line renderer
         beam.material = beamMat;                                        // Assigns red material
@@ -73,8 +74,8 @@ public class TestTower : MonoBehaviour
         beam.endWidth = 0.2f;                                           // Defines width of beam at end
         beam.positionCount = 2;                                         // Defines number of beam vertices
 
-        beam.SetPosition(0, tower);                                     // Define start of beam
-        beam.SetPosition(1, enemy);                                     // Define end of beam
+        beam.SetPosition(0, gameObject.transform.position);             // Define start of beam from tower
+        beam.SetPosition(1, enemy);                                     // Define end of beam to enemy
         Destroy(beam, 0.5f);                                            // Destroy beam after time has passed
     }
 
