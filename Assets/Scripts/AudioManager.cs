@@ -27,10 +27,15 @@ public class AudioManager : MonoBehaviour
         effectsSource.PlayOneShot(clip);
     }
 
-    
     public void PlayMusic(AudioClip clip)
     {   // Function to play/change music
         musicSource.clip = clip;
         musicSource.Play();
+    }
+
+    public void PlayVoice(AudioClip clip)
+    {   // Function to play voices in game
+        voiceSource.clip = clip;
+        voiceSource.Play();
     }
 }
