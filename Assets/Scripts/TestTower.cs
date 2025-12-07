@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class TestTower : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class TestTower : MonoBehaviour
     {
         if (Time.time >= lastShotTime + fireRate)   // Waits fire rate time before shooting
         {
-            ShootClosest();                         // Shoots at enemy
+            BeamTower();                            // Shoots at enemy
         }
     }
 
@@ -63,6 +64,59 @@ public class TestTower : MonoBehaviour
                 Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
                 BeamEnemy(actEnemies[0].transform.position);                                            // Draws beam for visuals
             }
+        }
+    }
+
+    // Function to get enemies in range
+    private List<Collider> GetEnemiesInRange()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, range);  // Gets array of enemies in range
+        List<Collider> enemiesList = enemies.ToList();                          // Converts array to list
+        List<Collider> enemiesReturn = new List<Collider>();                    // Creates list to be returned
+        if (enemiesList.Count > 0)                                              // Checks length of list
+        {
+            foreach (Collider enemy in enemiesList)
+            {
+                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks an object is an enemy
+                {
+                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
+                    if (!enemyObject.IsDead())                                  // Checks enemy is alive
+                    {
+                        enemiesReturn.Add(enemy);                               // Adds enemy to return list
+                    }
+                }
+            }
+            if (enemiesReturn.Count > 0) 
+            { 
+                return enemiesReturn; 
+            } 
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    // Function to sort list by distance
+    private Collider GetClosestEnemy(List<Collider> enemies)
+    {
+        List<Collider> returnEnemies = enemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();
+        return returnEnemies[0];
+    }
+
+    private void BeamTower()
+    {
+        if (GetEnemiesInRange() != null)
+        {
+            lastShotTime = Time.time;   // Updates last shot timer
+            List<Collider> enemiesInRange = GetEnemiesInRange();
+            Collider closestEnemy = GetClosestEnemy(enemiesInRange);
+            closestEnemy.SendMessage("TakeDamage", damage);
+            BeamEnemy(closestEnemy.transform.position);
         }
     }
 
