@@ -5697,6 +5697,10 @@ PrefabInstance:
       propertyPath: beamMat
       value: 
       objectReference: {fileID: 2100000, guid: 6e778ec0cbf788b4ab8618e846935d09, type: 2}
+    - target: {fileID: -1855453370487187275, guid: aebb0e7b5536bf940955593436f5a143, type: 3}
+      propertyPath: beamHouse
+      value: 
+      objectReference: {fileID: 7584429781089356385, guid: ae0feec2e2df8104e9d0e19d8ea66f38, type: 3}
     - target: {fileID: 2444634735352443670, guid: aebb0e7b5536bf940955593436f5a143, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.56

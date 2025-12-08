@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using UnityEngine.Pool;
 
 public class TestTower : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class TestTower : MonoBehaviour
     [SerializeField] private float fireRate = 4f;
     [SerializeField] private float range = 300f;
     [SerializeField] private Material beamMat;
+    [SerializeField] private int scatterCount = 2;
 
     private float lastShotTime = 0;
 
@@ -27,10 +29,11 @@ public class TestTower : MonoBehaviour
     {
         if (Time.time >= lastShotTime + fireRate)   // Waits fire rate time before shooting
         {
-            BeamTower();                            // Shoots at enemy
+            ScatterTower();                            // Shoots at enemy
         }
     }
 
+    /*  Protoype tower code
     void ShootClosest()
     {
         lastShotTime = Time.time;   // Updates last shot timer
@@ -66,6 +69,7 @@ public class TestTower : MonoBehaviour
             }
         }
     }
+    */
 
     // Function to get enemies in range
     private List<Collider> GetEnemiesInRange()
@@ -86,7 +90,7 @@ public class TestTower : MonoBehaviour
                     }
                 }
             }
-            if (enemiesReturn.Count > 0) 
+            if (enemiesReturn.Count > 0)    // Only returns list if enemies are present
             { 
                 return enemiesReturn; 
             } 
@@ -104,25 +108,60 @@ public class TestTower : MonoBehaviour
     // Function to sort list by distance
     private Collider GetClosestEnemy(List<Collider> enemies)
     {
-        List<Collider> returnEnemies = enemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();
-        return returnEnemies[0];
+        List<Collider> returnEnemies = enemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList(); // Sorts list by distance from tower
+        return returnEnemies[0];    // Returns first entry
     }
 
+    // Function for standard beam tower
     private void BeamTower()
     {
         if (GetEnemiesInRange() != null)
         {
-            lastShotTime = Time.time;   // Updates last shot timer
-            List<Collider> enemiesInRange = GetEnemiesInRange();
-            Collider closestEnemy = GetClosestEnemy(enemiesInRange);
-            closestEnemy.SendMessage("TakeDamage", damage);
-            BeamEnemy(closestEnemy.transform.position);
+            lastShotTime = Time.time;                                   // Updates last shot timer
+            List<Collider> enemiesInRange = GetEnemiesInRange();        // Gets enemies in range
+            Collider closestEnemy = GetClosestEnemy(enemiesInRange);    // Gets closest enemy to tower
+            closestEnemy.SendMessage("TakeDamage", damage);             // Makes enemy take damage
+            BeamEnemy(closestEnemy.transform.position);                 // Draws beam to enemy
         }
     }
 
-    void BeamEnemy(Vector3 enemy)
+    // Function for scatter tower
+    private void ScatterTower()
     {
-        LineRenderer beam = gameObject.AddComponent<LineRenderer>();    // Creates line renderer
+        if (GetEnemiesInRange() != null)
+        {
+            lastShotTime = Time.time;                               // Updates last shot timer
+            List<Collider> enemiesInRange = GetEnemiesInRange();    // Gets list of enemies in range
+            List<Collider> targettedEnemies = new List<Collider>(); // Creates a list of the enemies to deal damage to
+            bool findTargets = true;                                // Bool for looping array
+            while (findTargets)             // Checks the right amount of enemies has been selected or every enemy has been selected
+            {
+                Collider curTarget = enemiesInRange[UnityEngine.Random.Range(0, enemiesInRange.Count)]; // Designates a target
+
+                if (!DetectDuplicateTarget(targettedEnemies, curTarget))                                // Checks if target is already in list of targets
+                {
+                    targettedEnemies.Add(curTarget);    // Adds target to list of targets if it's not already a target
+                }
+
+                if (targettedEnemies.Count == scatterCount || targettedEnemies.Count == enemiesInRange.Count)   // Checks if max amount of enemies targetted or all enemies in range targetted
+                {
+                    findTargets = false;    // Stops looping over array
+                }
+            }
+            foreach (Collider c in targettedEnemies)    // Loops through enemies to damage
+            {
+                c.SendMessage("TakeDamage", damage);    // Tells enemy to take damage
+                BeamEnemy(c.transform.position);        // Draws beam to enemy
+            }
+        }
+    }
+
+    // Function to attach beam to enemies
+    private void BeamEnemy(Vector3 enemy)
+    {
+        GameObject BeamHouse = new GameObject();                        // Creates empty object to house beam
+        BeamHouse.transform.SetParent(gameObject.transform);            // Sets parent as tower
+        LineRenderer beam = BeamHouse.AddComponent<LineRenderer>();     // Creates line renderer
         beam.material = beamMat;                                        // Assigns red material
         beam.startWidth = 0.2f;                                         // Defines width of beam at start
         beam.endWidth = 0.1f;                                           // Defines width of beam at end
@@ -130,7 +169,19 @@ public class TestTower : MonoBehaviour
 
         beam.SetPosition(0, gameObject.transform.position);             // Define start of beam from tower
         beam.SetPosition(1, enemy);                                     // Define end of beam to enemy
-        Destroy(beam, 0.5f);                                            // Destroy beam after time has passed
+        Destroy(BeamHouse, 0.5f);                                       // Destroy beam after time has passed
     }
 
+    // Function to check for duplicated enemeis in a list
+    private bool DetectDuplicateTarget(List<Collider> list, Collider target)
+    {
+        foreach (Collider c in list)    // Loops through list of enemies
+        {
+            if (c == target)            // Checks if each index is the enemy to check against
+            {
+                return true;            // If enemy exists in list, return true
+            }
+        }
+        return false;                   // If enemy not in list, return false
+    }
 }
