@@ -4,18 +4,35 @@ using System;
 using Unity.Mathematics;
 using JetBrains.Annotations;
 using Random = UnityEngine.Random;
+using System.Runtime.CompilerServices;
+using UnityEditor.SceneManagement;
 
 public class ProceduralGeneration : EditorWindow
 {
     private Texture2D noiseMapTexture;
-    private float density = 0.5f;
     private GameObject prefab;
+    private PlacementGenes genes;
+
+    private static string GenesSaveName
+    {
+        get { return $"Vegetationwizard_{Application.productName}_{EditorSceneManager.GetActiveScene().name}"; }
+    }
 
     // Showing of initial window
-    [MenuItem("Tools/Wizards Plant Placement")]
+    [MenuItem("Tools/Wizards/Plant Placement")]
     public static void ShowWindow()
     {
         GetWindow<ProceduralGeneration>("Plant Placement");
+    }
+
+    private void OnEnable()
+    {
+        genes = PlacementGenes.Load(GenesSaveName);
+    }
+
+    private void OnDisable()
+    {
+        PlacementGenes.Save(GenesSaveName, genes);
     }
 
     // GUI Creation
@@ -34,43 +51,98 @@ public class ProceduralGeneration : EditorWindow
         }
         EditorGUILayout.EndHorizontal();
 
+        genes.maxHeight = EditorGUILayout.Slider("Max Height", genes.maxHeight, 0, 1000);
+        genes.maxSteepness = EditorGUILayout.Slider("Max Steepness", genes.maxSteepness, 0, 90);
+
         // Slider to allow the user to select the density of the trees
-        density = EditorGUILayout.Slider("Density", density, 0, 1);
+        genes.density = EditorGUILayout.Slider("Density", genes.density, 0, 1);
 
         // Area to allow the user to select a prefab
         prefab = (GameObject)EditorGUILayout.ObjectField("Object Prefab", prefab, typeof(GameObject), false);
 
         if (GUILayout.Button("Place Objects"))
         {
-            PlaceObjects(Terrain.activeTerrain, noiseMapTexture, density, prefab);
+            PlaceObjects(Terrain.activeTerrain, noiseMapTexture, genes, prefab);
         }
 
     }
 
+    // REFACTOR: provide a fitness param struct for objects, to minimise aamount of data being passed through methods
     // Object place algorithm (Managed how the prefabs are placed in the world)
-    public static void PlaceObjects(Terrain terrain, Texture2D noiseMapTexture, float density, GameObject prefab)
+    public static void PlaceObjects(Terrain terrain, Texture2D noiseMapTexture, PlacementGenes genes, GameObject prefab)
     {
         Transform parent = new GameObject("PlacedObjects").transform;
 
         // Iterate at 1 meter intervals
-        for (int i = 0; i < terrain.terrainData.size.x; i++)
+        for (int x = 0; x < terrain.terrainData.size.x; x++)
         {
-            for (int j = 0; j < terrain.terrainData.size.y; j++)
+            for (int z = 0; z < terrain.terrainData.size.z; z++)
             {
-                float noiseMapValue = noiseMapTexture.GetPixel(i, j).g;
-
                 // If value is above threshold, instantiate tree in position
-                if (noiseMapValue > 1 - density)
+                if (Fitness(terrain, noiseMapTexture, genes.maxHeight, genes.maxSteepness, x, z) > 1 - genes.density)
                 {
                     // Calculates position for the placement of the prefab
-                    Vector3 pos = new Vector3(i / Random.Range(-0.5f, 0.5f), 0, j / Random.Range(-0.5f, 0.5f));
-                    pos.y = terrain.terrainData.GetInterpolatedHeight(i / (float)terrain.terrainData.size.x, j / (float)terrain.terrainData.size.y);
+                    Vector3 pos = new Vector3(x / Random.Range(-0.5f, 0.5f), 0, z / Random.Range(-0.5f, 0.5f));
+                    pos.y = terrain.terrainData.GetInterpolatedHeight(x / (float)terrain.terrainData.size.x, z / (float)terrain.terrainData.size.y);
 
                     // Instantiates the prefab and assigns it a parent object to prevent hierarchy cluttering
                     GameObject go = Instantiate(prefab, pos, Quaternion.identity);
                     go.transform.SetParent(parent);
                 }
             }
+        }
+    }
+
+    private static float Fitness(Terrain terrain, Texture2D noiseMapTexture, float maxHeight, float maxSteepness, int x, int z)
+    {
+        float fitness = noiseMapTexture.GetPixel(x, z).g;
+
+        fitness += Random.Range(-0.25f, 0.25f);
+
+        float steepness = terrain.terrainData.GetSteepness(x / terrain.terrainData.size.x, z / terrain.terrainData.size.z);
+        if (steepness > maxSteepness)
+        {
+            fitness -= 0.7f;
+        }
+
+        float height = terrain.terrainData.GetHeight(x, z);
+        if (height > maxHeight) 
+        {
+            fitness -= 0.7f;
+        }
+
+        return fitness;
+    }
+
+    [Serializable]
+    public struct PlacementGenes
+    {
+        public float density;
+        public float maxHeight;
+        public float maxSteepness;
+
+        internal static PlacementGenes Load(string saveName)
+        {
+            PlacementGenes genes;
+            string saveData = EditorPrefs.GetString(saveName);
+
+            if (string.IsNullOrEmpty(saveData))
+            {
+                genes = new PlacementGenes();
+                genes.density = 0.5f;
+                genes.maxHeight = 100;
+                genes.maxSteepness = 25;
+            } else
+            {
+                genes = JsonUtility.FromJson<PlacementGenes>(saveData);
+            }
+
+            return genes;
+        }
+
+        internal static void Save(string saveName, PlacementGenes genes)
+        {
+            EditorPrefs.SetString(saveName, JsonUtility.ToJson(genes)); 
         }
     }
 }
