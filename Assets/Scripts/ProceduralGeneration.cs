@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Random = UnityEngine.Random;
 using System.Runtime.CompilerServices;
 using UnityEditor.SceneManagement;
+using Unity.VisualScripting;
 
 public class ProceduralGeneration : EditorWindow
 {
@@ -114,23 +115,32 @@ public class ProceduralGeneration : EditorWindow
 
     private static float Fitness(Terrain terrain, Texture2D noiseMapTexture, float maxHeight, float maxSteepness, int x, int z)
     {
-        float fitness = noiseMapTexture.GetPixel(x, z).g;
-
-        fitness += Random.Range(-0.25f, 0.25f);
-
-        float steepness = terrain.terrainData.GetSteepness(x / terrain.terrainData.size.x, z / terrain.terrainData.size.z);
-        if (steepness > maxSteepness)
+        if (noiseMapTexture == null)
         {
-            fitness -= 0.7f;
+            EditorGUILayout.HelpBox("Error, You must generate terrain before placing trees", MessageType.Error);
+            return -999f;
         }
-
-        float height = terrain.terrainData.GetHeight(x, z);
-        if (height > maxHeight) 
+        else
         {
-            fitness -= 0.7f;
-        }
 
-        return fitness;
+            float fitness = noiseMapTexture.GetPixel(x, z).g;
+
+            fitness += Random.Range(-0.25f, 0.25f);
+
+            float steepness = terrain.terrainData.GetSteepness(x / terrain.terrainData.size.x, z / terrain.terrainData.size.z);
+            if (steepness > maxSteepness)
+            {
+                fitness -= 0.7f;
+            }
+
+            float height = terrain.terrainData.GetHeight(x, z);
+            if (height > maxHeight)
+            {
+                fitness -= 0.7f;
+            }
+
+            return fitness;
+        }
     }
 
     [Serializable]
