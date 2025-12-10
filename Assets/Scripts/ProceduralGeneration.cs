@@ -40,6 +40,12 @@ public class ProceduralGeneration : EditorWindow
     // Creation of the noise texture as the base location for x, y of where the trees are placed
     private void OnGUI()
     {
+        if (Terrain.activeTerrain == null)
+        {
+            EditorGUILayout.HelpBox("No active terrain found in the scene!", MessageType.Error);
+            return;
+        }
+
         EditorGUILayout.BeginHorizontal();
         noiseMapTexture = (Texture2D)EditorGUILayout.ObjectField("Noise Map Texture", noiseMapTexture, typeof(Texture2D), false);
         if (GUILayout.Button("Generate Noise"))
@@ -73,20 +79,27 @@ public class ProceduralGeneration : EditorWindow
     {
         Transform parent = new GameObject("PlacedObjects").transform;
 
-        // Iterate at 1 meter intervals
-        for (int x = 0; x < terrain.terrainData.size.x; x++)
+        int heightRes = terrain.terrainData.heightmapResolution;
+        int widthRes = heightRes;   // terrain heightmap is square
+
+        for (int x = 0; x < widthRes; x++)
         {
-            for (int z = 0; z < terrain.terrainData.size.z; z++)
+            for (int z = 0; z < widthRes; z++)
             {
-                // If value is above threshold, instantiate tree in position
                 if (Fitness(terrain, noiseMapTexture, genes.maxHeight, genes.maxSteepness, x, z) > 1 - genes.density)
                 {
-                    // Calculates position for the placement of the prefab
-                    Vector3 pos = new Vector3(x / Random.Range(-0.5f, 0.5f), 0, z / Random.Range(-0.5f, 0.5f));
-                    pos.y = terrain.terrainData.GetInterpolatedHeight(x / (float)terrain.terrainData.size.x, z / (float)terrain.terrainData.size.y);
+                    // Convert heightmap coordinates to normalised terrain coordinates
+                    float normX = x / (float)heightRes;
+                    float normZ = z / (float)heightRes;
 
-                    // Instantiates the prefab and assigns it a parent object to prevent hierarchy cluttering
-                    GameObject go = Instantiate(prefab, pos, Quaternion.identity);
+                    // Convert to world space
+                    float worldX = terrain.transform.position.x + normX * terrain.terrainData.size.x;
+                    float worldZ = terrain.transform.position.z + normZ * terrain.terrainData.size.z;
+                    float worldY = terrain.terrainData.GetInterpolatedHeight(normX, normZ);
+
+                    Vector3 pos = new Vector3(worldX, worldY, worldZ);
+
+                    GameObject go = GameObject.Instantiate(prefab, pos, Quaternion.identity);
                     go.transform.SetParent(parent);
                 }
             }
