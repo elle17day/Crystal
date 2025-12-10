@@ -59,6 +59,7 @@ public class ProceduralGeneration : EditorWindow
 
         genes.maxHeight = EditorGUILayout.Slider("Max Height", genes.maxHeight, 0, 1000);
         genes.maxSteepness = EditorGUILayout.Slider("Max Steepness", genes.maxSteepness, 0, 90);
+        genes.spacing = EditorGUILayout.Slider("Spacing", genes.spacing, 0, 1);
 
         // Slider to allow the user to select the density of the trees
         genes.density = EditorGUILayout.Slider("Density", genes.density, 0, 1);
@@ -86,6 +87,11 @@ public class ProceduralGeneration : EditorWindow
         {
             for (int z = 0; z < widthRes; z++)
             {
+
+                // Allows the trees to be spaced out to prevent clumping
+                if (Random.value > genes.spacing)
+                    continue;
+
                 if (Fitness(terrain, noiseMapTexture, genes.maxHeight, genes.maxSteepness, x, z) > 1 - genes.density)
                 {
                     // Convert heightmap coordinates to normalised terrain coordinates
@@ -130,6 +136,7 @@ public class ProceduralGeneration : EditorWindow
     [Serializable]
     public struct PlacementGenes
     {
+        public float spacing;
         public float density;
         public float maxHeight;
         public float maxSteepness;
@@ -145,6 +152,7 @@ public class ProceduralGeneration : EditorWindow
                 genes.density = 0.5f;
                 genes.maxHeight = 100;
                 genes.maxSteepness = 25;
+                genes.spacing = 0.5f;
             } else
             {
                 genes = JsonUtility.FromJson<PlacementGenes>(saveData);
