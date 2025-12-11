@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class TerrNoise
 {
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale)
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale, int octaves, float persistance, float lacuna)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 

@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int mapWidth;
+    public int mapHeight;
+    public float noiseScale;
+
+    public bool autoUpdate;
+
+    public void GenerateMap()
     {
-        
+        float[,] noiseMap = TerrNoise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale);
+
+        MapDisplay display = FindFirstObjectByType<MapDisplay>();
+        display.DrawNoiseMap(noiseMap);
+
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
