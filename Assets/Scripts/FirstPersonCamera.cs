@@ -26,5 +26,6 @@ public class FirstPersonCamera : MonoBehaviour
 
         player.Rotate(Vector3.up * inputX);
 
+        
     }
 }
