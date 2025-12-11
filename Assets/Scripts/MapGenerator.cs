@@ -36,7 +36,7 @@ public class MapGenerator : MonoBehaviour
 
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight > regions[i].height)
+                    if (currentHeight <= regions[i].height)
                     {
                         colourMap[y * mapWidth + x] = regions[i].colour;
                         break;
