@@ -22,9 +22,15 @@ public static class TerrNoise
             scale = 0.0001f;
         }
 
+        // Sets the maximum values of the noisemap
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
+        // Makes the noise map zoom into the center when altering the 
+        float halfWidth = mapWidth / 2f;
+        float halfHeight = mapHeight / 2f;
+
+        // Generating the noisemap
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++) {
@@ -34,9 +40,10 @@ public static class TerrNoise
                 float noiseHeight = 0;
             
                 for (int i = 0; i < octaves; i++) { 
-                    float sampleX = x / scale * frequency + octaveOffsets[i].x;
-                    float sampleY = y / scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[i].x;
+                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y;
 
+                    // Using the MathF.PerlinNoise method, use the values input to generate a noisemap
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
