@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEditor;
 using System;
-using Unity.Mathematics;
+using static Unity.Mathematics;
 using JetBrains.Annotations;
 using Random = UnityEngine.Random;
 using System.Runtime.CompilerServices;
 using UnityEditor.SceneManagement;
-using Unity.VisualScripting;
+using static Unity.VisualScripting;
 
 public class ProceduralGeneration : EditorWindow
 {
