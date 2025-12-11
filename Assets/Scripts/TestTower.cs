@@ -125,7 +125,7 @@ public class TestTower : MonoBehaviour
         }
     }
 
-    // Function for scatter tower
+    // Scatter tower hits multiple enemies simultaneously
     private void ScatterTower()
     {
         if (GetEnemiesInRange() != null)
