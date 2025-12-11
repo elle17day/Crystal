@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEditor;
 using System;
-using static Unity.Mathematics;
+using Unity.Mathematics;
 using JetBrains.Annotations;
 using Random = UnityEngine.Random;
 using System.Runtime.CompilerServices;
 using UnityEditor.SceneManagement;
-using static Unity.VisualScripting;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class ProceduralGeneration : EditorWindow
 {
@@ -176,4 +177,4 @@ public class ProceduralGeneration : EditorWindow
             EditorPrefs.SetString(saveName, JsonUtility.ToJson(genes)); 
         }
     }
-}
+} 
