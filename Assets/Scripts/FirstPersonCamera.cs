@@ -4,21 +4,24 @@ public class FirstPersonCamera : MonoBehaviour
 {
 
     public Transform player;
-    public float moueSensitivity = 2f;
+    public float mouseSensitivity = 2f;
     float cameraVerticalRotation = 0f;
+
+    bool lockedCursor = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        float inputX = Input.GetAxis("Mouse X") * moueSensitivity;
-        float inputY = Input.GetAxis("Mouse Y") * moueSensitivity;
+        float inputX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float inputY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         cameraVerticalRotation -= inputY;
         cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -90f, 90f);
@@ -26,6 +29,6 @@ public class FirstPersonCamera : MonoBehaviour
 
         player.Rotate(Vector3.up * inputX);
 
-        
     }
+
 }
