@@ -169,7 +169,7 @@ public class TestTower : MonoBehaviour
 
         beam.SetPosition(0, gameObject.transform.position);             // Define start of beam from tower
         beam.SetPosition(1, enemy);                                     // Define end of beam to enemy
-        Destroy(BeamHouse, 0.5f);                                       // Destroy beam after time has passed
+        Destroy(BeamHouse, 0.3f);                                       // Destroy beam after time has passed
     }
 
     // Function to check for duplicated enemeis in a list
