@@ -1,3 +1,4 @@
+using UnityEditor.AssetImporters;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -48,10 +49,10 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindFirstObjectByType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
-            display.DrawNoiseMap(noiseMap);
+            display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
         } else if (drawMode == DrawMode.ColourMap)
         {
-
+            display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapWidth, mapHeight));
         }
         
         

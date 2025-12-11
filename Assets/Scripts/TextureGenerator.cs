@@ -1,16 +1,31 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public static class TextureGenerator
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+     public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int height)
     {
-        
+        Texture2D texture = new Texture2D(width, height);
+        texture.SetPixels(colourMap);
+        texture.Apply();
+
+        return texture;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static Texture2D TextureFromHeightMap(float[,] heightMap)
     {
-        
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
+
+        Color[] colourMap = new Color[width * height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
+            }
+        }
+
+        return TextureFromColourMap(colourMap, width, height);
     }
 }
