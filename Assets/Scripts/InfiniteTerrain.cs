@@ -113,16 +113,21 @@ public class InfiniteTerrain : MonoBehaviour
             lodMeshes = new LODMesh[detailLevels.Length];
             for (int i = 0; i < detailLevels.Length; i++)
             {
-                lodMeshes[i] = new LODMesh(detailLevels[i].lod); 
+                lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk); 
             }
 
-            mapGenerator.RequestMapData(OnMapDataRecieved);
+            mapGenerator.RequestMapData(position, OnMapDataRecieved);
         }
 
         void OnMapDataRecieved(MapData mapData)
         {
             this.mapData = mapData;
             mapDataRecieved = true;
+
+            Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
+            meshRenderer.material.mainTexture = texture;
+
+            UpdateTerrainChunk();
         }
 
         public void UpdateTerrainChunk()
@@ -184,16 +189,20 @@ public class InfiniteTerrain : MonoBehaviour
         public bool hasRequestedMesh;
         public bool hasMesh;
         int lod;
+        System.Action updateCallback;
 
-        public LODMesh(int lod)
+        public LODMesh(int lod, System.Action updateCallback)
         {
             this.lod = lod;
+            this.updateCallback = updateCallback;
         }
 
         void OnMeshDataRecieved(MeshData meshData)
         {
             mesh = meshData.CreateMesh();
             hasMesh = true;
+
+            updateCallback();
         }
 
         public void Requestmest(MapData mapData)
