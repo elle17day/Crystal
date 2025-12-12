@@ -116,7 +116,7 @@ public class InfiniteTerrain : MonoBehaviour
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk); 
             }
 
-            mapGenerator.RequestMapData(position, OnMapDataRecieved);
+            mapGenerator.RequestMapData(position, detailLevels[0].lod, OnMapDataRecieved);
         }
 
         void OnMapDataRecieved(MapData mapData)

@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
 
     public TerrNoise.NormalizeMode normalizeMode;
 
-    public const int mapChunkSize = 241;
+    public const int mapChunkSize = 239;
     [Range(0, 6)]
     public int editorPreviewLOD;
     public float noiseScale;
@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour
 
     public void DrawMapInEditor()
     {
-        MapData mapData  = GenerateMapData(Vector2.zero);
+        MapData mapData  = GenerateMapData(Vector2.zero, editorPreviewLOD);
 
         // Generate and display map
         MapDisplay display = FindFirstObjectByType<MapDisplay>();
@@ -67,19 +67,19 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    public void RequestMapData(Vector2 center, Action<MapData> callback)
+    public void RequestMapData(Vector2 center, int lod, Action<MapData> callback)
     {
         ThreadStart threadStart = delegate
         {
-            MapDataThread(center, callback);
+            MapDataThread(center, lod, callback);
         };
 
         new Thread(threadStart).Start();
     }
 
-    void MapDataThread(Vector2 center, Action<MapData> callback)
+    void MapDataThread(Vector2 center, int lod, Action<MapData> callback)
     {
-        MapData mapData = GenerateMapData(center);
+        MapData mapData = GenerateMapData(center, lod);
 
         lock (mapDataThreadInfoQueue)
         {
@@ -91,7 +91,7 @@ public class MapGenerator : MonoBehaviour
     {
         ThreadStart threadStart = delegate
         {
-            MeshDataThread(mapData, lod, callback );
+            MeshDataThread(mapData, lod, callback);
         };
 
         new Thread(threadStart).Start();
@@ -128,9 +128,12 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    MapData GenerateMapData(Vector2 center)
-    {
-        float[,] noiseMap = TerrNoise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, center + offset, normalizeMode);
+    MapData GenerateMapData(Vector2 center, int lod)
+    { 
+        int increment = (lod == 0) ? 1 : lod * 2;
+        int borderedSize = mapChunkSize + increment * 2;
+
+        float[,] noiseMap = TerrNoise.GenerateNoiseMap(borderedSize, borderedSize, seed, noiseScale, octaves, persistance, lacunarity, center + offset, normalizeMode);
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
         for (int y = 0; y < mapChunkSize; y++)
