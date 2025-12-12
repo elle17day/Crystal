@@ -604,6 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewer: {fileID: 1675870540}
+  mapMaterial: {fileID: 2100000, guid: c57110cfd6ce65d4c8f07560f77d2356, type: 2}
 --- !u!1 &695771989
 GameObject:
   m_ObjectHideFlags: 0
