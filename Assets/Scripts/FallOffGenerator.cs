@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public static class falloffGenerator
+public static class FalloffGenerator
 {
     public static float[,] GenerateFalloffMap(int size)
     {
