@@ -20,7 +20,7 @@ public class InfiniteTerrain : MonoBehaviour
     int chunksVisibleInViewDst;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
-    List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
+    static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
 
     void Start()
     {
@@ -65,10 +65,7 @@ public class InfiniteTerrain : MonoBehaviour
                 if (terrainChunkDictionary.ContainsKey(viewedChunkCoord))
                 {
                     terrainChunkDictionary[viewedChunkCoord].UpdateTerrainChunk();
-                    if (terrainChunkDictionary[viewedChunkCoord].isVisible())
-                    {
-                        terrainChunksVisibleLastUpdate.Add(terrainChunkDictionary[viewedChunkCoord]);
-                    }
+                    
                 } else
                 {
                     terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, transform, mapMaterial));
@@ -166,6 +163,8 @@ public class InfiniteTerrain : MonoBehaviour
                             lodMesh.Requestmest(mapData);
                         }
                     }
+
+                    terrainChunksVisibleLastUpdate.Add(this);
                 }
                 
                 SetVisible(visible);
