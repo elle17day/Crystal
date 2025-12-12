@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class InfiniteTerrain : MonoBehaviour
-{ 
+{
+    const float viewerMoveThresholdForChunkUpdate = 25f;
+    const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
+
     public LODInfo[] detailLevels;
     public static float maxViewDst;
 
@@ -11,6 +14,7 @@ public class InfiniteTerrain : MonoBehaviour
     public Material mapMaterial;
 
     public static Vector2 viewerPosition;
+    Vector2 viewerPositionOld;
     static MapGenerator mapGenerator;
     int chunkSize;
     int chunksVisibleInViewDst;
@@ -25,12 +29,19 @@ public class InfiniteTerrain : MonoBehaviour
         maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
         chunkSize = MapGenerator.mapChunkSize - 1;
         chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
+
+        UpdateVisibleChunks();
     }
 
     void Update()
     {
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
-        UpdateVisibleChunks();
+
+        if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
+        {
+            viewerPositionOld = viewerPosition;
+            UpdateVisibleChunks();
+        }
     }
 
     void UpdateVisibleChunks()
