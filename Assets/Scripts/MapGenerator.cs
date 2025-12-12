@@ -60,7 +60,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            display.DrawMesh(MeshGenerator.GenerateterrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
         } else if (drawMode == DrawMode.FalloffMap)
         {
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
@@ -99,7 +99,7 @@ public class MapGenerator : MonoBehaviour
 
     public void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback)
     {
-        MeshData meshData = MeshGenerator.GenerateterrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod);
+        MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod);
         lock (meshDataThreadInfoQueue)
         {
             meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData> (callback, meshData));
@@ -130,25 +130,27 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapData(Vector2 center, int lod)
     { 
-        int increment = (lod == 0) ? 1 : lod * 2;
-        int borderedSize = mapChunkSize + increment * 2;
+        int meshSimplificationIncrement = (lod == 0) ? 1 : lod * 2;
+        int borderedSize = mapChunkSize + meshSimplificationIncrement * 2;
 
         float[,] noiseMap = TerrNoise.GenerateNoiseMap(borderedSize, borderedSize, seed, noiseScale, octaves, persistance, lacunarity, center + offset, normalizeMode);
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+
         for (int y = 0; y < mapChunkSize; y++)
         {
             for (int x = 0; x < mapChunkSize; x++)
             {
+                float heightValue = noiseMap[x + meshSimplificationIncrement, y + meshSimplificationIncrement];
+
                 if (usefalloff)
                 {
-                    noiseMap[x,y] = Mathf.Clamp01(noiseMap[x, y] - falloffmap[x, y]);
+                    heightValue = Mathf.Clamp01(heightValue - falloffmap[x, y]);
                 }
-                float currentHeight = noiseMap[x, y];
 
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight >= regions[i].height)
+                    if (heightValue >= regions[i].height)
                     {
                         colourMap[y * mapChunkSize + x] = regions[i].colour;    
                     } else
@@ -156,6 +158,8 @@ public class MapGenerator : MonoBehaviour
                         break;
                     }
                 }
+
+                noiseMap[x + meshSimplificationIncrement, y + meshSimplificationIncrement] = heightValue;
             }
         }
 

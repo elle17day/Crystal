@@ -116,7 +116,8 @@ public class InfiniteTerrain : MonoBehaviour
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk); 
             }
 
-            mapGenerator.RequestMapData(position, detailLevels[0].lod, OnMapDataRecieved);
+            Vector2 noiseCenter = coord * MapGenerator.mapChunkSize;
+            mapGenerator.RequestMapData(noiseCenter, detailLevels[0].lod, OnMapDataRecieved);
         }
 
         void OnMapDataRecieved(MapData mapData)

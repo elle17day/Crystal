@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class MeshGenerator 
 {
-    public static MeshData GenerateterrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail)
+    public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail)
     {
         AnimationCurve heightCurve = new AnimationCurve(_heightCurve.keys);
 
@@ -23,9 +23,9 @@ public static class MeshGenerator
         int meshVertexIndex = 0;
         int borderedVertexIndex = -1;
 
-        for (int y = 0; y < borderedSize; y += meshSimplificationIncrement)
+        for (int y = 0; y < borderedSize - 1; y += meshSimplificationIncrement)
         {
-            for (int x = 0; x < borderedSize; x += meshSimplificationIncrement)
+            for (int x = 0; x < borderedSize - 1; x += meshSimplificationIncrement)
             {
                 bool isBorderVertex = y == 0 || y == borderedSize - 1 || x == 0 || x == borderedSize - 1;
 
@@ -41,9 +41,9 @@ public static class MeshGenerator
             }
         }
 
-        for (int y  = 0; y < borderedSize; y += meshSimplificationIncrement)
+        for (int y  = 0; y < borderedSize - 1; y += meshSimplificationIncrement)
         {
-            for (int x = 0; x < borderedSize; x += meshSimplificationIncrement)
+            for (int x = 0; x < borderedSize - 1; x += meshSimplificationIncrement)
             {
                 int vertexIndex = vertexIndicesMap[x, y];
 
@@ -56,7 +56,7 @@ public static class MeshGenerator
 
                 meshData.AddVertex(vertexPosition, percent, vertexIndex);
 
-                if (x < borderedSize - 1 && y < borderedSize -1)
+                if (x + meshSimplificationIncrement < borderedSize - 1 && y + meshSimplificationIncrement < borderedSize - 1)
                 {
                     int a = vertexIndicesMap[x, y];
                     int b = vertexIndicesMap[x + meshSimplificationIncrement, y];
