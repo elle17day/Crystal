@@ -82,7 +82,7 @@ public static class TerrNoise
                 } else
                 {
                     float normalizedHeight = (noiseMap[x, y] + 1) / (2f * maxPossibleHeight / 1.75f);
-                    noiseMap[x,y] = normalizedHeight;
+                    noiseMap[x,y] = Mathf.Clamp(normalizedHeight,0,int.MaxValue);
                 }
             }
         }
