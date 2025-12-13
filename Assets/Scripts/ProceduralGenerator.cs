@@ -6,13 +6,13 @@ public class ProceduralGenerator : MonoBehaviour
     public GameObject prefab;
     public GameObject prefab2;
     public GameObject prefab3;
-    public int numberOfPrefabInstances = 200;
+    public int numberOfPrefabInstances = 100;
     public Vector3 generationAreaSize = new Vector3(100f, 1f, 100f);
 
     public Transform parentContainer;
 
 
-    public float absoluteGroundLevel = 30f; // We set it to 30, because we initially set our terrain to have a height of 30
+    public float absoluteGroundLevel = 0f; // We set it to 30, because we initially set our terrain to have a height of 30
 
     void Start()
     {
