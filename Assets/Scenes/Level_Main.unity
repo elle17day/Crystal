@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 12551394}
   - component: {fileID: 12551397}
   - component: {fileID: 12551396}
-  - component: {fileID: 12551395}
+  - component: {fileID: 12551398}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal_Backdrop
   m_TagString: Untagged
@@ -153,29 +153,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 758040095}
   m_LocalEulerAnglesHint: {x: 5.107, y: -9.726, z: 88.192}
---- !u!136 &12551395
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12551393}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &12551396
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -228,6 +205,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12551393}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &12551398
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12551393}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &15314783
 PrefabInstance:
@@ -2112,7 +2111,7 @@ Transform:
   m_GameObject: {fileID: 247480629}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.219791, y: -1.3998933, z: -8.467953}
+  m_LocalPosition: {x: 9.219791, y: -1.5, z: -8.467953}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2700,7 +2699,7 @@ GameObject:
   - component: {fileID: 354437901}
   - component: {fileID: 354437904}
   - component: {fileID: 354437903}
-  - component: {fileID: 354437902}
+  - component: {fileID: 354437905}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal
   m_TagString: Untagged
@@ -2723,29 +2722,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 758040095}
   m_LocalEulerAnglesHint: {x: 5.107, y: -9.726, z: 88.192}
---- !u!136 &354437902
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354437900}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &354437903
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2798,6 +2774,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354437900}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &354437905
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354437900}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &364084657
 PrefabInstance:
@@ -3344,7 +3342,8 @@ GameObject:
   - component: {fileID: 409529703}
   - component: {fileID: 409529706}
   - component: {fileID: 409529705}
-  - component: {fileID: 409529704}
+  - component: {fileID: 409529707}
+  - component: {fileID: 409529708}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal
   m_TagString: Untagged
@@ -3367,29 +3366,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1391765878}
   m_LocalEulerAnglesHint: {x: -0.49, y: -13.069, z: 87.888}
---- !u!136 &409529704
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 409529702}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &409529705
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3442,6 +3418,50 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409529702}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &409529707
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409529702}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &409529708
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409529702}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &412754651
 GameObject:
@@ -4842,7 +4862,7 @@ GameObject:
   - component: {fileID: 662679250}
   - component: {fileID: 662679253}
   - component: {fileID: 662679252}
-  - component: {fileID: 662679251}
+  - component: {fileID: 662679254}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal
   m_TagString: Untagged
@@ -4865,29 +4885,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 532512678}
   m_LocalEulerAnglesHint: {x: 5.107, y: -9.726, z: 88.192}
---- !u!136 &662679251
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662679249}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &662679252
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4940,6 +4937,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662679249}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &662679254
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662679249}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &688195161
 PrefabInstance:
@@ -6486,10 +6505,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.58226013
+  m_Height: 2.0804648
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.0048604608, y: 0.04023245, z: -0.0019440651}
 --- !u!23 &843367399
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6551,14 +6570,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843367397}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.26, y: 3, z: -10.51}
+  m_LocalRotation: {x: -0, y: 0.9995124, z: -0, w: -0.031224975}
+  m_LocalPosition: {x: -12.4945345, y: 1.35, z: -316.91476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2032849979}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 183.579, z: 0}
 --- !u!114 &843367403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6601,8 +6620,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
+  m_Constraints: 80
+  m_CollisionDetection: 2
 --- !u!1001 &849851519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7157,6 +7176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 940870872}
+  - component: {fileID: 940870873}
   m_Layer: 0
   m_Name: Cave_Spawner_Frame
   m_TagString: Untagged
@@ -7182,6 +7202,28 @@ Transform:
   - {fileID: 1685994042}
   m_Father: {fileID: 758040095}
   m_LocalEulerAnglesHint: {x: 5.384, y: 3.405, z: 1.566}
+--- !u!64 &940870873
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940870871}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &941481432
 GameObject:
   m_ObjectHideFlags: 0
@@ -8812,6 +8854,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1170706188}
+  - component: {fileID: 1170706189}
+  - component: {fileID: 1170706190}
   m_Layer: 0
   m_Name: Cave_Spawner_Frame
   m_TagString: Untagged
@@ -8837,6 +8881,50 @@ Transform:
   - {fileID: 999843371}
   m_Father: {fileID: 1391765878}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1170706189
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170706187}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!64 &1170706190
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170706187}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1186657950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10135,6 +10223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1386628308}
+  - component: {fileID: 1386628309}
   m_Layer: 0
   m_Name: Cave_Spawner_Frame
   m_TagString: Untagged
@@ -10160,6 +10249,28 @@ Transform:
   - {fileID: 732749654}
   m_Father: {fileID: 532512678}
   m_LocalEulerAnglesHint: {x: 5.384, y: 3.405, z: 1.566}
+--- !u!64 &1386628309
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386628307}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1386727245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10802,7 +10913,7 @@ Transform:
   m_GameObject: {fileID: 1587783407}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 230, y: -1, z: 326}
+  m_LocalPosition: {x: 230, y: -3.1, z: 326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12125,7 +12236,8 @@ GameObject:
   - component: {fileID: 1746220336}
   - component: {fileID: 1746220339}
   - component: {fileID: 1746220338}
-  - component: {fileID: 1746220337}
+  - component: {fileID: 1746220340}
+  - component: {fileID: 1746220341}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal_Backdrop
   m_TagString: Untagged
@@ -12148,29 +12260,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1391765878}
   m_LocalEulerAnglesHint: {x: -0.49, y: -13.069, z: 87.888}
---- !u!136 &1746220337
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746220335}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1746220338
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12223,6 +12312,50 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746220335}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &1746220340
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746220335}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &1746220341
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746220335}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1754114647
 PrefabInstance:
@@ -13470,7 +13603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2966408971820621620, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.56
       objectReference: {fileID: 0}
     - target: {fileID: 2966408971820621620, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13503,6 +13636,34 @@ PrefabInstance:
     - target: {fileID: 2966408971820621620, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149578, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149578, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149578, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149814, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_Radius
+      value: 0.023518648
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149814, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_Center.x
+      value: -0.000000007152557
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149814, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_Center.y
+      value: 0.054142695
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359813154911149814, guid: 33299b82d6d2dba46ad2df2ebaaf1738, type: 3}
+      propertyPath: m_Center.z
+      value: -0.003393278
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14115,7 +14276,7 @@ GameObject:
   - component: {fileID: 1976119049}
   - component: {fileID: 1976119052}
   - component: {fileID: 1976119051}
-  - component: {fileID: 1976119050}
+  - component: {fileID: 1976119053}
   m_Layer: 0
   m_Name: Cave_Spawner_Portal_Backdrop
   m_TagString: Untagged
@@ -14138,29 +14299,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 532512678}
   m_LocalEulerAnglesHint: {x: 5.107, y: -9.726, z: 88.192}
---- !u!136 &1976119050
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1976119048}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1976119051
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14213,6 +14351,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976119048}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &1976119053
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976119048}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1980596594
 PrefabInstance:
@@ -14790,7 +14950,7 @@ Transform:
   m_GameObject: {fileID: 2032849975}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.016, y: 0.738, z: 0.2}
+  m_LocalPosition: {x: 0.016, y: 0.738, z: -0.107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
