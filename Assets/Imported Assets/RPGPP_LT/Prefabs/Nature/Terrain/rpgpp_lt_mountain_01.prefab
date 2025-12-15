@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4099890921740684}
   - component: {fileID: 33732981895488272}
   - component: {fileID: 23991852965333892}
-  - component: {fileID: 4129662601661517258}
-  m_Layer: 0
+  - component: {fileID: 4528268675506387190}
+  - component: {fileID: 3432814708453215559}
+  m_Layer: 9
   m_Name: rpgpp_lt_mountain_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +88,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4129662601661517258
+--- !u!64 &4528268675506387190
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,3 +110,26 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9d123ff5b15c0bd4fbd33779e2acdbd9, type: 3}
+--- !u!136 &3432814708453215559
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185380165875998}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 88
+  m_Height: 78.35386
+  m_Direction: 1
+  m_Center: {x: 0.00078582764, y: 0, z: 0.00022888184}

@@ -21,7 +21,8 @@ public class ProceduralGenerator : MonoBehaviour
 
     bool CanPlaceTree(Vector3 position)
     {
-        Collider[] hits = Physics.OverlapSphere(position, treeRadius, placementBlockerMask);
+
+        Collider[] hits = Physics.OverlapSphere(position, treeRadius, placementBlockerMask, QueryTriggerInteraction.Collide);
 
         return hits.Length == 0;
     }
