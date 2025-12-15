@@ -1,18 +1,30 @@
-
+using System.Collections.Generic;
+using System.Collections;
+using NUnit.Framework;
 using UnityEngine;
 
 public class ProceduralGenerator : MonoBehaviour
 {
-    public GameObject prefab;
-    public GameObject prefab2;
-    public GameObject prefab3;
+    public GameObject[] treePrefabs;
+
     public int numberOfPrefabInstances = 100;
+    public int maxPlacementAttempts = 10;
+
     public Vector3 generationAreaSize = new Vector3(100f, 1f, 100f);
 
     public Transform parentContainer;
 
+    public LayerMask placementBlockerMask;
+    public float treeRadius = 1.5f;
 
     public float absoluteGroundLevel = 0f; // We set it to 30, because we initially set our terrain to have a height of 30
+
+    bool CanPlaceTree(Vector3 position)
+    {
+        Collider[] hits = Physics.OverlapSphere(position, treeRadius, placementBlockerMask);
+
+        return hits.Length == 0;
+    }
 
     void Start()
     {
@@ -25,20 +37,29 @@ public class ProceduralGenerator : MonoBehaviour
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, absoluteGroundLevel, gameObject.transform.position.z);
 
         Generate();
+
     }
 
     void Generate()
     {
         for (int i = 0; i < numberOfPrefabInstances; i++)
         {
-            Vector3 randomPosition = GetRandomPositionInGenerationArea();
-            Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
-            //Instantiate(prefab, randomPosition, randomRotation);
-            Instantiate(prefab, randomPosition, randomRotation, parentContainer.transform);
-            randomPosition = GetRandomPositionInGenerationArea();
-            Instantiate(prefab2, randomPosition, randomRotation, parentContainer.transform);
-            randomPosition = GetRandomPositionInGenerationArea();
-            Instantiate(prefab3, randomPosition, randomRotation, parentContainer.transform);
+            GameObject chosenPrefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
+
+            for (int attempt = 0; attempt < maxPlacementAttempts; attempt++)
+            {
+                Vector3 randomPosition = GetRandomPositionInGenerationArea();
+
+                if (!CanPlaceTree(randomPosition))
+                    continue;
+                
+                Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+
+                //Instantiate(prefab, randomPosition, randomRotation);
+                Instantiate(chosenPrefab, randomPosition, randomRotation, parentContainer.transform);
+
+                break;
+            }
         }
     }
 
