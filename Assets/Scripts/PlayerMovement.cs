@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    public Vector3 boxSize;
+    public float maxDistance;
+    public LayerMask layerMask;
     public float inputX;
     public float inputY;
     public float speed = 20f;
-    public Rigidbody rb;
+    Rigidbody rb;
     public float jumpAmount = 2;
-    bool isGrounded = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -26,11 +27,7 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(Vector3.right * inputX * Time.deltaTime * speed);
         transform.Translate(Vector3.forward * inputY * Time.deltaTime * speed);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
-            isGrounded = false;
-        }
+        
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -41,10 +38,30 @@ public class PlayerMovement : MonoBehaviour
             speed = 5f;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
+        {
+            rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
+        }
+
     }
 
-    void OnTriggerEnter()
+    void OnDrawGizmos()
     {
-        isGrounded = true;
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
     }
+    bool GroundCheck()
+    {
+        if (Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxDistance, layerMask))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }
+
+
