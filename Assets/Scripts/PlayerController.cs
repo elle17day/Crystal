@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
     public Vector3 boxSize;
-    public float maxDistance;
+    public float boxDistance;
     public LayerMask layerMask;
     public float inputX;
     public float inputY;
     public float speed = 20f;
     Rigidbody rb;
     public float jumpAmount = 2;
+    BoxCollider boxCollider;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
