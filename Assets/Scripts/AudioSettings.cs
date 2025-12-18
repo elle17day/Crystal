@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+// https://www.youtube.com/watch?v=IVfyYBJr3Yo&t=779s Wave music
+
 public class AudioSettings : MonoBehaviour
 {   // Linking to audio system and menu UI
     [SerializeField] private AudioMixer audioMixer;

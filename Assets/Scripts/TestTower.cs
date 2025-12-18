@@ -9,14 +9,21 @@ using UnityEngine.Pool;
 
 public class TestTower : MonoBehaviour
 {
-
+    private enum State {Beam, Rapid, Scatter}
+    [SerializeField] private State state;
     [SerializeField] private float damage = 20f;
-    [SerializeField] private float fireRate = 4f;
+    [SerializeField] private float fireRate = 0.2f;
     [SerializeField] private float range = 300f;
+    [SerializeField] private float armourPen = 0f;
+    [SerializeField] private int damageLevel = 1;
+    [SerializeField] private int fireRateLevel = 1;
+    [SerializeField] private int rangeLevel = 1;
+    [SerializeField] private int armourPenLevel = 1;
     [SerializeField] private Material beamMat;
     [SerializeField] private int scatterCount = 2;
 
     private float lastShotTime = 0;
+    private Collider currentTarget;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,50 +33,34 @@ public class TestTower : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   /*
         if (Time.time >= lastShotTime + fireRate)   // Waits fire rate time before shooting
         {
-            ScatterTower();                            // Shoots at enemy
+            RapidFireTower();                            // Shoots at enemy
         }
+        */
+
+        if (Time.time >= lastShotTime + fireRate)
+        {
+            switch (state)
+            {
+                case State.Beam:
+                    BeamTower();
+                    break;
+
+                case State.Rapid:
+                    RapidFireTower();
+                    break;
+
+                case State.Scatter:
+                    ScatterTower();
+                    break;
+            }
+        }
+ 
     }
 
-    /*  Protoype tower code
-    void ShootClosest()
-    {
-        lastShotTime = Time.time;   // Updates last shot timer
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);   // Get list of game objects within range of tower
-        var listEnemies = enemiesInRange.ToList();  // Converts collider to list of enemies within range
-        var actEnemies = listEnemies.ToList();      // Creates an extra list to store actual enemies
-        actEnemies.Clear();                         // Clears list of actual enemies
-        if (listEnemies.Count > 0)  // Checks there is at least one enemy
-        {
-            foreach (var enemy in listEnemies)  // Iterates over list of enemies
-            {
-                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks enemy has a stat column
-                {
-                    Debug.Log(enemy.transform.name + " is enemy!");             // Debug line
-                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
-                    if (!enemyObject.IsDead())                                  // Checks if enemy is dead
-                    {
-                        Debug.Log(enemy.transform.name + " is alive!");         // Debug line
-                        actEnemies.Add(enemy);                                  // Adds alive enemies to list of actual enemies
-                    }
-                }
-                if (enemy.GetComponent<TestEnemyStats>() == null)               // Debug lines to ensure all objects are checked
-                {
-                    Debug.Log(enemy.transform.name + " is not enemy!");
-                }
-            }
-            if (actEnemies.Count > 0)       // Checks for actual enemies
-            {
-                actEnemies = actEnemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();    // Orders enemies by distance
-                actEnemies[0].SendMessage("TakeDamage", damage);                                        // Makes first enemy in list take damage
-                Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
-                BeamEnemy(actEnemies[0].transform.position);                                            // Draws beam for visuals
-            }
-        }
-    }
-    */
+
 
     // Function to get enemies in range
     private List<Collider> GetEnemiesInRange()
@@ -122,6 +113,26 @@ public class TestTower : MonoBehaviour
             Collider closestEnemy = GetClosestEnemy(enemiesInRange);    // Gets closest enemy to tower
             closestEnemy.SendMessage("TakeDamage", damage);             // Makes enemy take damage
             BeamEnemy(closestEnemy.transform.position);                 // Draws beam to enemy
+        }
+    }
+
+    // Function for rapid fire tower
+    private void RapidFireTower()
+    {
+        // Checks current target is dead or null
+        if (currentTarget ==  null || currentTarget.GetComponent<TestEnemyStats>().IsDead())
+        {
+            List<Collider> enemiesInRange = GetEnemiesInRange();    // Gets enemies in range
+            if (enemiesInRange != null)                             // Checks enemies are in range
+            {
+                currentTarget = GetClosestEnemy(enemiesInRange);        // Gets closest enemy to tower
+            }
+        }   
+        else
+        {
+            lastShotTime = Time.time;                           // Resets shoot timer
+            currentTarget.SendMessage("TakeDamage", damage);    // Deals damage to enemy
+            BeamEnemy(currentTarget.transform.position);        // Draws beam to enemy
         }
     }
 
@@ -184,4 +195,51 @@ public class TestTower : MonoBehaviour
         }
         return false;                   // If enemy not in list, return false
     }
+
+    // Increment stat levels
+    private void LevelDamage()
+    {
+        damageLevel++;
+
+    }
+
+
+
+    /*  Protoype tower code
+    void ShootClosest()
+    {
+        lastShotTime = Time.time;   // Updates last shot timer
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);   // Get list of game objects within range of tower
+        var listEnemies = enemiesInRange.ToList();  // Converts collider to list of enemies within range
+        var actEnemies = listEnemies.ToList();      // Creates an extra list to store actual enemies
+        actEnemies.Clear();                         // Clears list of actual enemies
+        if (listEnemies.Count > 0)  // Checks there is at least one enemy
+        {
+            foreach (var enemy in listEnemies)  // Iterates over list of enemies
+            {
+                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks enemy has a stat column
+                {
+                    Debug.Log(enemy.transform.name + " is enemy!");             // Debug line
+                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
+                    if (!enemyObject.IsDead())                                  // Checks if enemy is dead
+                    {
+                        Debug.Log(enemy.transform.name + " is alive!");         // Debug line
+                        actEnemies.Add(enemy);                                  // Adds alive enemies to list of actual enemies
+                    }
+                }
+                if (enemy.GetComponent<TestEnemyStats>() == null)               // Debug lines to ensure all objects are checked
+                {
+                    Debug.Log(enemy.transform.name + " is not enemy!");
+                }
+            }
+            if (actEnemies.Count > 0)       // Checks for actual enemies
+            {
+                actEnemies = actEnemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();    // Orders enemies by distance
+                actEnemies[0].SendMessage("TakeDamage", damage);                                        // Makes first enemy in list take damage
+                Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
+                BeamEnemy(actEnemies[0].transform.position);                                            // Draws beam for visuals
+            }
+        }
+    }
+*/
 }
