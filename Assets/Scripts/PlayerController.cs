@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
+    private bool isInUI = false;
     public Vector3 boxSize;
     public float boxDistance;
     public LayerMask layerMask;
@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 20f;
     Rigidbody rb;
     public float jumpAmount = 2;
+    Ray _ray;
+    RaycastHit _hit;
     BoxCollider boxCollider;
 
 
@@ -18,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        boxCollider = GetComponent<BoxCollider>();
+        _ray = new Ray(Vector3.zero, Vector3.forward);
     }
 
     // Update is called once per frame
@@ -46,16 +48,31 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
         }
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (isInUI == true)
+            {
+                
+            }
+
+            else if (Physics.Raycast(_ray, out _hit, 5f))
+            {
+                // check if hits tower and display UI
+                Debug.Log(_hit.transform.gameObject.name);
+                // check if hits enemy and have enemy take damage
+            }
+        }
+
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+        Gizmos.DrawCube(transform.position - transform.up * boxDistance, boxSize);
     }
     bool GroundCheck()
     {
-        if (Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxDistance, layerMask))
+        if (Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, boxDistance, layerMask))
         {
             return true;
         }
