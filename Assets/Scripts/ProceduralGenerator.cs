@@ -1,0 +1,88 @@
+using System.Collections.Generic;
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+
+public class ProceduralGenerator : MonoBehaviour
+{
+    public GameObject[] treePrefabs;
+
+    public int numberOfPrefabInstances = 100;
+    public int maxPlacementAttempts = 10;
+
+    public Vector3 generationAreaSize = new Vector3(100f, 1f, 100f);
+
+    public Transform parentContainer;
+
+    public LayerMask placementBlockerMask;
+    public float treeRadius = 1.5f;
+
+    public float absoluteGroundLevel = 0f; // We set it to 30, because we initially set our terrain to have a height of 30
+
+    bool CanPlaceTree(Vector3 position)
+    {
+
+        Collider[] hits = Physics.OverlapSphere(position, treeRadius, placementBlockerMask, QueryTriggerInteraction.Collide);
+
+        return hits.Length == 0;
+    }
+
+    void Start()
+    {
+        // If no parentContainer provided, instances will be generated as children of the generator.
+        if (parentContainer == null)
+        {
+            parentContainer = transform.root;
+        }
+
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, absoluteGroundLevel, gameObject.transform.position.z);
+
+        Generate();
+
+    }
+
+    void Generate()
+    {
+        for (int i = 0; i < numberOfPrefabInstances; i++)
+        {
+            GameObject chosenPrefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
+
+            for (int attempt = 0; attempt < maxPlacementAttempts; attempt++)
+            {
+                Vector3 randomPosition = GetRandomPositionInGenerationArea();
+
+                if (!CanPlaceTree(randomPosition))
+                    continue;
+                
+                Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+
+                //Instantiate(prefab, randomPosition, randomRotation);
+                Instantiate(chosenPrefab, randomPosition, randomRotation, parentContainer.transform);
+
+                break;
+            }
+        }
+    }
+
+    Vector3 GetRandomPositionInGenerationArea()
+    {
+        Vector3 randomPosition = new Vector3(
+           Random.Range(-generationAreaSize.x / 2, generationAreaSize.x / 2),
+           0f,
+           Random.Range(-generationAreaSize.z / 2, generationAreaSize.z / 2)
+       );
+
+        // Optionally, you can adjust the Y coordinate based on terrain height or other criteria
+        // For example:
+        // randomPosition.y = Terrain.activeTerrain.SampleHeight(randomPosition);
+
+        return transform.position + randomPosition;
+    }
+
+    // Draw Gizmo to visualize the generation area
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, generationAreaSize);
+    }
+}
