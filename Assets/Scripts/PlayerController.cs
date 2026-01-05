@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,16 +12,12 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 20f;
     Rigidbody rb;
     public float jumpAmount = 2;
-    Ray _ray;
-    RaycastHit _hit;
-    BoxCollider boxCollider;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        _ray = new Ray(Vector3.zero, Vector3.forward);
     }
 
     // Update is called once per frame
@@ -52,14 +49,20 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isInUI == true)
             {
-                
+                Debug.Log("Bad");
             }
 
-            else if (Physics.Raycast(_ray, out _hit, 5f))
+            else 
             {
-                // check if hits tower and display UI
-                Debug.Log(_hit.transform.gameObject.name);
-                // check if hits enemy and have enemy take damage
+                RaycastHit hit;
+                // Does the ray intersect any objects excluding the player layer
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f , layerMask))
+
+                {
+                    // check if hits tower and display UI
+
+                    // check if hits enemy and have enemy take damage
+                }
             }
         }
 
