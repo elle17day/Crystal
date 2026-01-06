@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 
 public class MainTower : MonoBehaviour
 {
+    // Tower stats
     public enum State { Beam, Rapid, Scatter, ArmourPen }
     private State state;
     private float damage = 20f;
@@ -24,10 +25,9 @@ public class MainTower : MonoBehaviour
 
 
 
-    // Update is called once per frame
     void Update()
-    {
-        if ((state !=State.Rapid && Time.time >= lastShotTime + fireRate) || (state == State.Rapid && Time.time >= lastShotTime + rapidFireRate))
+    {   // Calls functions based on tower setting
+        if ((state != State.Rapid && Time.time >= lastShotTime + fireRate) || (state == State.Rapid && Time.time >= lastShotTime + rapidFireRate))
         {
             switch (state)
             {
@@ -185,7 +185,6 @@ public class MainTower : MonoBehaviour
     }
 
 
-
     private bool DetectDuplicateTarget(List<Collider> list, Collider target)
     {   // Method to check for duplicated enemeis in a list
         foreach (Collider c in list)    // Loops through list of enemies
@@ -204,7 +203,8 @@ public class MainTower : MonoBehaviour
         state = type;
     }
 
-    public void UpgradeTowers()
+
+    public void GetTowersStats()
     {   // Modifies tower stats based on values from GameManager
         int[] towerLevels = GameManager.Instance.GetTowerStats();
 
@@ -220,4 +220,5 @@ public class MainTower : MonoBehaviour
         damageLevel = towerLevels[3];
         damage = 10 * Mathf.Log(damageLevel) + 15;
     }
+
 }

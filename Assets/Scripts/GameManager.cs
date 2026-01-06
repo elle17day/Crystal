@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
@@ -70,8 +71,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bossCost = 20;
     [SerializeField] private int bossUnlockWave = 10;
 
+
     private void Start()
-    {
+    {   // Function for defining base game state
         currentState = GameStates.BuildPhase;
         playerMoney = 50;
         northEnabled = true;
@@ -172,7 +174,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool CanUpgrade(int value)
-    {
+    {   // Function for checking the player can afford an upgrade
         if (playerMoney >= value)
         {
             return true;
