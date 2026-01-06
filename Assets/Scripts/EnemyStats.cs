@@ -23,6 +23,7 @@ public class EnemyStats : MonoBehaviour
     private Material enemyMat;      // Enemy material
     private Material deadMat;       // Dead material
     private float deadTimer;        // Time before destroying enemy
+    private float enemyScale;       // Scaling for enemy capsule size
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class EnemyStats : MonoBehaviour
         script.SendMessage("SetDamage", damage);
 
         objectRenderer.material = enemyMat;
+        host.transform.localScale = new Vector3(enemyScale, enemyScale, enemyScale);
     }
 
     void Update()
@@ -88,6 +90,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 3f;
                 damage = 2f;
                 deadTimer = 1f;
+                enemyScale = 0.8f;
                 break;
 
             case enemyType.Elite:
@@ -95,9 +98,10 @@ public class EnemyStats : MonoBehaviour
                 maxHealth = 80f;
                 currentHealth = maxHealth;
                 armour = 1.2f;
-                speed = 3f;
+                speed = 2.5f;
                 damage = 5f;
                 deadTimer = 2f;
+                enemyScale = 1f;
                 break;
 
             case enemyType.Swarmer:
@@ -108,10 +112,10 @@ public class EnemyStats : MonoBehaviour
                 speed = 5f;
                 damage = 1f;
                 deadTimer = 1f;
+                enemyScale = 0.5f;
                 break;
 
             case enemyType.Tank:
-
                 isDead = false;
                 maxHealth = 150f;
                 currentHealth = maxHealth;
@@ -119,6 +123,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 1.5f;
                 damage = 20f;
                 deadTimer = 3f;
+                enemyScale = 1.8f;
                 break;
 
             case enemyType.Boss:
@@ -129,6 +134,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 1f;
                 damage = 50f;
                 deadTimer = 5f;
+                enemyScale = 2.2f;
                 break;
         }
     }
