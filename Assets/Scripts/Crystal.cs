@@ -22,4 +22,10 @@ public class Crystal : MonoBehaviour
     {
         return transform.position;
     }
+
+    public void DamageCrystal(float dmg)
+    {
+        health -= dmg;
+        Debug.Log("Crystal Health: " + health);
+    }
 }
