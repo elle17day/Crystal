@@ -90,7 +90,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 3f;
                 damage = 2f;
                 deadTimer = 1f;
-                enemyScale = 0.8f;
+                enemyScale = 1.1f;
                 break;
 
             case enemyType.Elite:
@@ -101,7 +101,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 2.5f;
                 damage = 5f;
                 deadTimer = 2f;
-                enemyScale = 1f;
+                enemyScale = 1.4f;
                 break;
 
             case enemyType.Swarmer:
@@ -112,7 +112,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 5f;
                 damage = 1f;
                 deadTimer = 1f;
-                enemyScale = 0.5f;
+                enemyScale = 0.7f;
                 break;
 
             case enemyType.Tank:
@@ -123,7 +123,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 1.5f;
                 damage = 20f;
                 deadTimer = 3f;
-                enemyScale = 1.8f;
+                enemyScale = 2.1f;
                 break;
 
             case enemyType.Boss:
@@ -134,7 +134,7 @@ public class EnemyStats : MonoBehaviour
                 speed = 1f;
                 damage = 50f;
                 deadTimer = 5f;
-                enemyScale = 2.2f;
+                enemyScale = 2.6f;
                 break;
         }
     }
