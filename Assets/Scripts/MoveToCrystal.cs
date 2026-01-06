@@ -8,6 +8,7 @@ public class MoveToCrystal : MonoBehaviour
     // Create private variables
     private NavMeshAgent agent;
     private GameObject Object;
+    private float damage;
 
     private void Awake()
     {   // Assign variables
@@ -25,7 +26,7 @@ public class MoveToCrystal : MonoBehaviour
         if (agent.remainingDistance <= 1f)
         {
             Debug.Log("Path complete");
-            Crystal.Instance.DamageCrystal(5f);
+            Crystal.Instance.DamageCrystal(damage);
             Destroy(Object);
         }
     }
