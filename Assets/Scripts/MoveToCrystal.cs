@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,11 +24,21 @@ public class MoveToCrystal : MonoBehaviour
 
     void Update()
     {   // Checks to see if at crystal
-        if (agent.remainingDistance <= 1f)
+        if (!agent.pathPending && agent.remainingDistance <= 1f)
         {
             Debug.Log("Path complete");
             Crystal.Instance.DamageCrystal(damage);
             Destroy(Object);
         }
+    }
+
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        agent.speed = speed;
     }
 }
