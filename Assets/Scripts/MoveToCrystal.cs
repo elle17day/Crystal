@@ -26,19 +26,18 @@ public class MoveToCrystal : MonoBehaviour
     {   // Checks to see if at crystal
         if (!agent.pathPending && agent.remainingDistance <= 1f)
         {
-            Debug.Log("Path complete");
-            Crystal.Instance.DamageCrystal(damage);
-            Destroy(Object);
+            Crystal.Instance.DamageCrystal(damage); // Damages crystal
+            Destroy(Object);                        // Destroys object
         }
     }
 
     public void SetDamage(float dmg)
-    {
+    {   // Method for setting enemies damage
         damage = dmg;
     }
 
     public void SetSpeed(float speed)
-    {
+    {   // Methd for setting enemies speed
         agent.speed = speed;
     }
 }
