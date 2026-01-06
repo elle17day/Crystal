@@ -1,5 +1,7 @@
 using NUnit.Framework.Constraints;
+using System;
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +35,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool northEnabled;
     [SerializeField] private bool eastEnabled;
 
+    // Global Tower Levels
+    [SerializeField] private int scatterLevel = 1;
+    [SerializeField] private int rapidFireLevel = 1;
+    [SerializeField] private int apLevel = 1;
+    [SerializeField] private int damageLevel = 1;
 
     // Enemy metrics
     [SerializeField] private bool gruntEnabled = false;
@@ -73,7 +80,7 @@ public class GameManager : MonoBehaviour
 
 
     private void FlipGameState()
-    {
+    {   // Function for flipping game state
         switch (currentState)
         {
             case GameStates.BuildPhase:
@@ -83,6 +90,16 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.BuildPhase;
                 break;
         }
+    }
+
+    public int[] GetTowerStats()
+    {   // Function for getting levels of towers
+        int[] stats = new int[4];
+        stats[0] = scatterLevel;
+        stats[1] = rapidFireLevel;
+        stats[2] = apLevel;
+        stats[3] = damageLevel;
+        return stats;
     }
 
     public int GetCurrentWave()

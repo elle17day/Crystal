@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MainTower : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MainTower : MonoBehaviour
     private State state;
     private float damage = 20f;
     private float fireRate = 4f;
+    private float rapidFireRate = 4f;
     private float range = 300f;
     private float armourPen = 0f;
     private int scatterCount = 2;
@@ -21,16 +23,11 @@ public class MainTower : MonoBehaviour
     private Collider currentTarget;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= lastShotTime + fireRate)
+        if ((state !=State.Rapid && Time.time >= lastShotTime + fireRate) || (state == State.Rapid && Time.time >= lastShotTime + rapidFireRate))
         {
             switch (state)
             {
@@ -87,7 +84,7 @@ public class MainTower : MonoBehaviour
         }
     }
 
-    
+
     private Collider GetClosestEnemy(List<Collider> enemies)
     {   // Method to sort list by distance
         List<Collider> returnEnemies = enemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList(); // Sorts list by distance from tower
@@ -115,7 +112,7 @@ public class MainTower : MonoBehaviour
             lastShotTime = Time.time;                                   // Updates last shot timer
             List<Collider> enemiesInRange = GetEnemiesInRange();        // Gets enemies in range
             Collider closestEnemy = GetClosestEnemy(enemiesInRange);    // Gets closest enemy to tower
-            closestEnemy.SendMessage("TakeDamage", damage*armourPen);             // Makes enemy take damage
+            closestEnemy.SendMessage("TakeDamage", damage * armourPen);             // Makes enemy take damage
             BeamEnemy(closestEnemy.transform.position);                 // Draws beam to enemy
         }
     }
@@ -188,7 +185,7 @@ public class MainTower : MonoBehaviour
     }
 
 
-    
+
     private bool DetectDuplicateTarget(List<Collider> list, Collider target)
     {   // Method to check for duplicated enemeis in a list
         foreach (Collider c in list)    // Loops through list of enemies
@@ -205,5 +202,22 @@ public class MainTower : MonoBehaviour
     public void ModifyTowerState(State type)
     {
         state = type;
+    }
+
+    public void UpgradeTowers()
+    {
+        int[] towerLevels = GameManager.Instance.GetTowerStats();
+
+        scatterLevel = towerLevels[0];
+        scatterCount = (int)(Mathf.Floor(scatterLevel / 5f + 1.8f));
+
+        fireRateLevel = towerLevels[1];
+        rapidFireRate = 2 * (2 / Mathf.Pow(fireRateLevel, 6 / 7)) + 0.2f;
+
+        armourPenLevel = towerLevels[2];
+        armourPen = 0.12f * armourPenLevel + 1.1f;
+
+        damageLevel = towerLevels[3];
+        damage = 10 * Mathf.Log(damageLevel) + 15;
     }
 }
