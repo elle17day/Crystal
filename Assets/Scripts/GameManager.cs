@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -17,9 +18,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Game States
+    public enum GameStates {BuildPhase, FightPhase};
+    private GameStates currentState;
+
     // Wave Metrics
     [SerializeField] private int currentWave;
-    [SerializeField] private float waveCost;
+    [SerializeField] private int waveCost;
     [SerializeField] private float waveTimer;
     [SerializeField] private int playerMoney;
 
@@ -58,6 +63,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bossCost = 20;
     [SerializeField] private int bossUnlockWave = 10;
 
+    private void Start()
+    {
+        currentState = GameStates.BuildPhase;
+        playerMoney = 50;
+        northEnabled = true;
+        currentWave = 1;
+    }
+
+
+    private void FlipGameState()
+    {
+        switch (currentState)
+        {
+            case GameStates.BuildPhase:
+                currentState = GameStates.FightPhase;
+                break;
+            case GameStates.FightPhase:
+                currentState = GameStates.BuildPhase;
+                break;
+        }
+    }
 
     public int GetCurrentWave()
     {   // Returns current wave
@@ -126,5 +152,13 @@ public class GameManager : MonoBehaviour
         {  
             bossEnabled = true;
         }
+    }
+
+    public bool CanUpgrade(int value)
+    {
+        if (playerMoney >= value)
+        {
+            return true;
+        } return false;
     }
 }

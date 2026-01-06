@@ -10,7 +10,7 @@ public class EnemyStats : MonoBehaviour
     public enum enemyType {Grunt,Elite,Swarmer,Tank,Boss};
     [SerializeField] private enemyType thisEnemy;
 
-    private int WaveCount;
+    private int waveCount;
 
     private bool isDead;            // Bool for checking state of enemy
     private Renderer objectRenderer;
@@ -28,8 +28,8 @@ public class EnemyStats : MonoBehaviour
     private void Awake()
     {
         // Generate stats for enemies based on wave
-        // Get wave number before generating stats
         host = this.gameObject;
+        waveCount = GameManager.Instance.GetCurrentWave();
         objectRenderer = GetComponent<Renderer>();
 
         GenerateStats(thisEnemy);   // Generate enemy stats
