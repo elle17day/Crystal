@@ -200,12 +200,12 @@ public class MainTower : MonoBehaviour
 
 
     public void ModifyTowerState(State type)
-    {
+    {   // Changes tower states
         state = type;
     }
 
     public void UpgradeTowers()
-    {
+    {   // Modifies tower stats based on values from GameManager
         int[] towerLevels = GameManager.Instance.GetTowerStats();
 
         scatterLevel = towerLevels[0];
