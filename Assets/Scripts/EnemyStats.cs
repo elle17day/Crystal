@@ -35,23 +35,23 @@ public class EnemyStats : MonoBehaviour
         GenerateStats(thisEnemy);   // Generate enemy stats
         enemyMat = Resources.Load("DebugAlive") as Material;
         deadMat = Resources.Load("DebugDead") as Material;
-
     }
 
     void Start()
     {
-        // Adds component to move enemy to crystal
+        // Adds component to move enemy to crystal and modify stats in script
         MonoBehaviour script = host.AddComponent<MoveToCrystal>();
         script.SendMessage("SetSpeed", speed);
         script.SendMessage("SetDamage", damage);
 
+        // Modifies material of enemy
         objectRenderer.material = enemyMat;
         host.transform.localScale = new Vector3(enemyScale, enemyScale, enemyScale);
     }
 
     void Update()
     {
-        if ((this.currentHealth <= 0) && (isDead == false)) // Calls death function
+        if ((this.currentHealth <= 0) && (isDead == false)) // Calls death function once when enemy dies
         {
             onDeath();
         }
@@ -64,22 +64,22 @@ public class EnemyStats : MonoBehaviour
     }
 
     public void ModifyEnemyType(enemyType newType)
-    {
+    {   // Method for changing enemy type
         thisEnemy = newType;
     }
 
     public void TakeDamage(float incomingDamage)
-    {
+    {   // Method for making enemies take damage
         currentHealth -= incomingDamage/armour;
     }
 
     public bool IsDead()
-    {
+    {   // Method to check if enemy is dead
         return isDead;
     }
 
     private void GenerateStats(enemyType enemy)
-    {
+    {   // Method for generating enemy stats
         switch (enemy)
         {
             case enemyType.Grunt:
