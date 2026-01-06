@@ -59,14 +59,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int tankCost = 15;
     [SerializeField] private int tankUnlockWave = 5;
 
-    [SerializeField] private bool siegeEnabled = false;
-    [SerializeField] private int siegeCost = 10;
-    [SerializeField] private int siegeUnlockWave = 7;
-
-    [SerializeField] private bool stealthEnabled = false;
-    [SerializeField] private int stealthCost = 8;
-    [SerializeField] private int stealthUnlockWave = 8;
-
     [SerializeField] private bool bossEnabled = false;
     [SerializeField] private int bossCost = 20;
     [SerializeField] private int bossUnlockWave = 10;
@@ -158,14 +150,6 @@ public class GameManager : MonoBehaviour
         if (currentWave >= tankUnlockWave)
         {
             tankEnabled = true;
-        }
-        if (currentWave >= siegeUnlockWave)
-        {
-            siegeEnabled = true;
-        }
-        if (currentWave >= siegeUnlockWave)
-        {
-            siegeEnabled = true;
         }
         if (currentWave >= bossUnlockWave)
         {  
