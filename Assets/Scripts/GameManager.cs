@@ -64,7 +64,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bossUnlockWave = 10;
 
     // Variables for enemy spawning
-    private GameObject[] centreEnemyArray;
+    private GameObject[] gruntEnemyArray;
+    private GameObject[] swarmerEnemyArray;
+    private GameObject[] eliteEnemyArray;
+    private GameObject[] tankEnemyArray;
+    private GameObject[] bossEnemyArray;
     private float minSpawnDelay = 2.5f;
     private float maxSpawnDelay = 4f;
     private Vector3 cenSpwn1 = new Vector3(175, 2, 3);
