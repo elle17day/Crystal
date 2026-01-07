@@ -96,9 +96,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   // Checks game phase and sufficient time has passed between spawns
         if (currentState == GameStates.FightPhase && Time.time >= lastSpawnTime + nextSpawnDelay)
-        {
+        {   // Spawn enemies here
 
         }
     }
@@ -253,53 +253,59 @@ public class GameManager : MonoBehaviour
 
     private void CreateWave()
     {   // Method to create wave and allocate the amount of each enemy to spawn in a given wave
-        CalculateWaveCost();
-        bool[] waveEnemies = GetActiveEnemies();
-        int enemyTypes = 1;
+        CalculateWaveCost();                        // Calculates cost of wave
+        bool[] waveEnemies = GetActiveEnemies();    // Creates array of available enemy types
+        int enemyTypes = 1;                         // Sets default value to 1 because of grunts
         foreach (bool b in waveEnemies)
-        {
+        {   // Counts how many enemy types are available for the wave
             if (b == true)
             {
                 enemyTypes++;
             }
         }
-        float waveSplit = waveCost/ (float)enemyTypes;
-        gruntCount = 0;
+        float waveSplit = waveCost/ (float)enemyTypes;  // Splits the wave cost between every enemy type
+
+        // Resets enemy counters to 0
+        gruntCount = 0;    
         swarmerCount = 0;
         elitecount = 0;
         tankCount = 0;
         bossCount = 0;
         remainder = 0;
 
+        // Always works out grunt counts and adds remainder to be spawned as swarmers
         gruntCount = (int)Mathf.Floor(waveSplit / gruntCost);
         remainder += (int)waveSplit % gruntCost;
+
         if (waveEnemies[0] == true)
-        {
+        {   // If swarmer wave, works out amount of swarmers to spawn
             swarmerCount = (int)Mathf.Floor(waveSplit / swarmerCost);
             remainder += (int)waveSplit % swarmerCost;
         }
         if (waveEnemies[1] == true)
-        {
+        {   // If elite wave, works out amount of elites to spawn
             elitecount = (int)Mathf.Floor(waveSplit / eliteCost);
             remainder += (int)waveSplit % eliteCost;
         }
         if (waveEnemies[2] == true)
-        {
+        {   // If tank wave, works out amount of tanks to spawn
             tankCount = (int)Mathf.Floor(waveSplit / tankCost);
             remainder += (int)waveSplit % tankCost;
         }
         if (waveEnemies[3] == true)
-        {
+        {   // If boss wave, works out amount of bosses to spawn
             bossCount = (int)Mathf.Floor(waveSplit / bossCost);
             remainder += (int)waveSplit % bossCost;
         }
 
+        // Adds remainder to swarmer count
         swarmerCount += remainder;
-        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount + remainder;
+        // Sets amount of enemies in the wave to work out when the wave has finished
+        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount;
     }
 
     private Vector3 GetSpawnLoc()
-    {
+    {   // Randomly selects a spawn location for small enemies
         int i = UnityEngine.Random.Range(0, 4);
         switch (i)
         {
@@ -318,13 +324,13 @@ public class GameManager : MonoBehaviour
     }
 
     private void SetSpawnTimers()
-    {
+    {   // Resets spawn timers for variation in spawn pattern
         lastSpawnTime = Time.time;
         nextSpawnDelay = UnityEngine.Random.Range(minSpawnDelay,maxSpawnDelay);
     }
 
     private void SpawnGrunt()
-    {
+    {   // Spawns the grunt enemy in the world
         GameObject grunt = Instantiate(enemyBase);
         grunt.transform.localPosition = GetSpawnLoc();
         grunt.AddComponent<EnemyStats>();
@@ -332,7 +338,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SpawnSwarmer()
-    {
+    {   // Spawns the swarmer enemy in the world
         GameObject swarmer = Instantiate(enemyBase);
         swarmer.transform.localPosition = GetSpawnLoc();
         swarmer.AddComponent<EnemyStats>();
@@ -340,7 +346,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SpawnElite()
-    {
+    {   // Spawns the elite enemy in the world
         GameObject elite = Instantiate(enemyBase);
         elite.transform.localPosition = GetSpawnLoc();
         elite.AddComponent<EnemyStats>();
@@ -348,7 +354,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SpawnTank()
-    {
+    {   // Spawns the tank enemy in the world
         GameObject tank = Instantiate(enemyBase);
         tank.transform.localPosition = cenSpwn3;
         tank.AddComponent<EnemyStats>();
@@ -356,7 +362,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SpawnBoss()
-    {
+    {   // Spawns the boss enemy in the world
         GameObject boss = Instantiate(enemyBase);
         boss.transform.localPosition = cenSpwn3;
         boss.AddComponent<EnemyStats>();
