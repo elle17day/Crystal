@@ -69,12 +69,18 @@ public class GameManager : MonoBehaviour
 
     // Variables for enemy spawning
     [SerializeField] private GameObject enemyBase;
+    private float waveStartTime = 0;
     private int enemyCount = 0;
     int gruntCount = 0;
+    int gruntSpawned = 0;
     int swarmerCount = 0;
+    int swarmerSpawned = 0;
     int elitecount = 0;
+    int eliteSpawned = 0;
     int tankCount = 0;
+    int tankSpawned = 0;
     int bossCount = 0;
+    int bossSpawned = 0;
     int remainder = 0;
     private float lastSpawnTime = 0f;
     private float nextSpawnDelay = 3f;
@@ -93,13 +99,58 @@ public class GameManager : MonoBehaviour
         northEnabled = true;
         currentWave = 1;
         CalculateSpawnDelays();
+        FlipGameState();
     }
 
     private void Update()
     {   // Checks game phase and sufficient time has passed between spawns
         if (currentState == GameStates.FightPhase && Time.time >= lastSpawnTime + nextSpawnDelay)
-        {   // Spawn enemies here
+        {   // Switch for spawning enemies
+            enemyType nextSpawn = (enemyType)UnityEngine.Random.Range(0, 4);
+            switch (nextSpawn) 
+            {
+                case enemyType.Grunt:
+                    if (gruntSpawned < gruntCount)
+                    {
+                        SpawnGrunt();
+                        SetSpawnTimers();
+                    }
+                    break;
+                case enemyType.Swarmer:
+                    if (swarmerSpawned < swarmerCount)
+                    {
+                        SpawnSwarmer();
+                        SetSpawnTimers();
+                    }
+                    break;
+                case enemyType.Elite:
+                    if (eliteSpawned < elitecount)
+                    {
+                        SpawnElite();
+                        SetSpawnTimers();
+                    }
+                    break;
+                case enemyType.Tank:
+                    if (tankSpawned < tankCount)
+                    {
+                        SpawnTank();
+                        SetSpawnTimers();
+                    }
+                    break;
+                case enemyType.Boss:
+                    if (bossSpawned < bossCount)
+                    {
+                        SpawnBoss();
+                        SetSpawnTimers();
+                    }
+                    break;
+            }
+        }
 
+        if (currentState == GameStates.FightPhase && enemyCount <= 0 && Time.time >= waveStartTime + 30f)
+        {   // Checks wave has successfully been defeated
+            // Make wave survived screen to display here
+            FlipGameState();
         }
     }
 
@@ -110,6 +161,7 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.BuildPhase:
                 currentState = GameStates.FightPhase;
+                waveStartTime = Time.time;
                 CreateWave();
                 break;
             case GameStates.FightPhase:
@@ -335,6 +387,7 @@ public class GameManager : MonoBehaviour
         grunt.transform.localPosition = GetSpawnLoc();
         grunt.AddComponent<EnemyStats>();
         grunt.SendMessage("ModifyEnemyType", enemyType.Grunt);
+        gruntSpawned++;
     }
 
     private void SpawnSwarmer()
@@ -343,6 +396,7 @@ public class GameManager : MonoBehaviour
         swarmer.transform.localPosition = GetSpawnLoc();
         swarmer.AddComponent<EnemyStats>();
         swarmer.SendMessage("ModifyEnemyType", enemyType.Swarmer);
+        swarmerSpawned++;
     }
 
     private void SpawnElite()
@@ -351,6 +405,7 @@ public class GameManager : MonoBehaviour
         elite.transform.localPosition = GetSpawnLoc();
         elite.AddComponent<EnemyStats>();
         elite.SendMessage("ModifyEnemyType", enemyType.Elite);
+        eliteSpawned++;
     }
 
     private void SpawnTank()
@@ -359,6 +414,7 @@ public class GameManager : MonoBehaviour
         tank.transform.localPosition = cenSpwn3;
         tank.AddComponent<EnemyStats>();
         tank.SendMessage("ModifyEnemyType", enemyType.Tank);
+        tankSpawned++;
     }
 
     private void SpawnBoss()
@@ -367,5 +423,6 @@ public class GameManager : MonoBehaviour
         boss.transform.localPosition = cenSpwn3;
         boss.AddComponent<EnemyStats>();
         boss.SendMessage("ModifyEnemyType", enemyType.Boss);
+        bossSpawned++;
     }
 }
