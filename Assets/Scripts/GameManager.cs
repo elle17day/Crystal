@@ -3,6 +3,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using Unity.VisualScripting;
+using Unity.Mathematics;
+
+
+public enum GameStates { BuildPhase, FightPhase };
 
 public class GameManager : MonoBehaviour
 {
@@ -22,7 +27,6 @@ public class GameManager : MonoBehaviour
     }
 
     // Game States
-    public enum GameStates {BuildPhase, FightPhase};
     private GameStates currentState;
 
     // Wave Metrics
@@ -66,6 +70,14 @@ public class GameManager : MonoBehaviour
     // Variables for enemy spawning
     [SerializeField] private GameObject enemyBase;
     private int enemyCount = 0;
+    int gruntCount = 0;
+    int swarmerCount = 0;
+    int elitecount = 0;
+    int tankCount = 0;
+    int bossCount = 0;
+    int remainder = 0;
+    private float lastSpawnTime = 0f;
+    private float nextSpawnDelay = 3f;
     private float minSpawnDelay = 2.5f;
     private float maxSpawnDelay = 4f;
     private Vector3 cenSpwn1 = new Vector3(175, 2, 3);
@@ -81,7 +93,14 @@ public class GameManager : MonoBehaviour
         northEnabled = true;
         currentWave = 1;
         CalculateSpawnDelays();
-        SpawnBoss();
+    }
+
+    private void Update()
+    {
+        if (currentState == GameStates.FightPhase && Time.time >= lastSpawnTime + nextSpawnDelay)
+        {
+
+        }
     }
 
 
@@ -91,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.BuildPhase:
                 currentState = GameStates.FightPhase;
+                CreateWave();
                 break;
             case GameStates.FightPhase:
                 currentState = GameStates.BuildPhase;
@@ -232,7 +252,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void CreateWave()
-    {
+    {   // Method to create wave and allocate the amount of each enemy to spawn in a given wave
         CalculateWaveCost();
         bool[] waveEnemies = GetActiveEnemies();
         int enemyTypes = 1;
@@ -244,12 +264,12 @@ public class GameManager : MonoBehaviour
             }
         }
         float waveSplit = waveCost/ (float)enemyTypes;
-        int gruntCount = 0;
-        int swarmerCount = 0;
-        int elitecount = 0;
-        int tankCount = 0;
-        int bossCount = 0;
-        int remainder = 0;
+        gruntCount = 0;
+        swarmerCount = 0;
+        elitecount = 0;
+        tankCount = 0;
+        bossCount = 0;
+        remainder = 0;
 
         gruntCount = (int)Mathf.Floor(waveSplit / gruntCost);
         remainder += (int)waveSplit % gruntCost;
@@ -274,18 +294,39 @@ public class GameManager : MonoBehaviour
             remainder += (int)waveSplit % bossCost;
         }
 
-        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount;
-        
-        for (int i = 0; i < gruntCount; i++)
+        swarmerCount += remainder;
+        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount + remainder;
+    }
+
+    private Vector3 GetSpawnLoc()
+    {
+        int i = UnityEngine.Random.Range(0, 4);
+        switch (i)
         {
-            SpawnGrunt();
+            case 0:
+                return cenSpwn1;
+            case 1:
+                return cenSpwn2;
+            case 2:
+                return cenSpwn3;
+            case 3:
+                return cenSpwn4;
+            case 4:
+                return cenSpwn5;
         }
+        return cenSpwn3;
+    }
+
+    private void SetSpawnTimers()
+    {
+        lastSpawnTime = Time.time;
+        nextSpawnDelay = UnityEngine.Random.Range(minSpawnDelay,maxSpawnDelay);
     }
 
     private void SpawnGrunt()
     {
         GameObject grunt = Instantiate(enemyBase);
-        grunt.transform.localPosition = cenSpwn3;
+        grunt.transform.localPosition = GetSpawnLoc();
         grunt.AddComponent<EnemyStats>();
         grunt.SendMessage("ModifyEnemyType", enemyType.Grunt);
     }
@@ -293,7 +334,7 @@ public class GameManager : MonoBehaviour
     private void SpawnSwarmer()
     {
         GameObject swarmer = Instantiate(enemyBase);
-        swarmer.transform.localPosition = cenSpwn3;
+        swarmer.transform.localPosition = GetSpawnLoc();
         swarmer.AddComponent<EnemyStats>();
         swarmer.SendMessage("ModifyEnemyType", enemyType.Swarmer);
     }
@@ -301,7 +342,7 @@ public class GameManager : MonoBehaviour
     private void SpawnElite()
     {
         GameObject elite = Instantiate(enemyBase);
-        elite.transform.localPosition = cenSpwn3;
+        elite.transform.localPosition = GetSpawnLoc();
         elite.AddComponent<EnemyStats>();
         elite.SendMessage("ModifyEnemyType", enemyType.Elite);
     }
