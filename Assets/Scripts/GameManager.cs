@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     // Enemy metrics
     [SerializeField] private bool gruntEnabled = false;
-    [SerializeField] private int gruntCost = 5;
+    [SerializeField] private int gruntCost = 3;
     [SerializeField] private int gruntUnlockWave = 1;
 
     [SerializeField] private bool swarmerEnabled = false;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool eliteEnabled = false;
     [SerializeField] private int eliteCost = 8;
-    [SerializeField] private int eliteUnlockWave = 4;
+    [SerializeField] private int eliteUnlockWave = 3;
 
     [SerializeField] private bool tankEnabled = false;
     [SerializeField] private int tankCost = 15;
@@ -63,6 +63,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bossCost = 20;
     [SerializeField] private int bossUnlockWave = 10;
 
+    // Variables for enemy spawning
+    private GameObject[] centreEnemyArray;
+    private float minSpawnDelay = 2.5f;
+    private float maxSpawnDelay = 4f;
+    private Vector3 cenSpwn1 = new Vector3(175, 2, 3);
+    private Vector3 cenSpwn2 = new Vector3(175, 2, 1.5f);
+    private Vector3 cenSpwn3 = new Vector3(175, 2, 0);
+    private Vector3 cenSpwn4 = new Vector3(175, 2, -1.5f);
+    private Vector3 cenSpwn5 = new Vector3(175, 2, -3f);
 
     private void Start()
     {   // Function for defining base game state
@@ -70,6 +79,7 @@ public class GameManager : MonoBehaviour
         playerMoney = 50;
         northEnabled = true;
         currentWave = 1;
+        CalculateSpawnDelays();
     }
 
 
@@ -83,6 +93,20 @@ public class GameManager : MonoBehaviour
             case GameStates.FightPhase:
                 currentState = GameStates.BuildPhase;
                 break;
+        }
+    }
+
+    private void CalculateSpawnDelays()
+    {
+        minSpawnDelay = (-0.1f * currentWave) + 2.6f;
+        if (minSpawnDelay < 0.6f)
+        {
+            minSpawnDelay = 0.6f;
+        }
+        maxSpawnDelay = (-0.05f * currentWave) + 4.05f;
+        if (maxSpawnDelay < 2)
+        {
+            maxSpawnDelay = 2;
         }
     }
 
@@ -129,7 +153,7 @@ public class GameManager : MonoBehaviour
 
     private void CalculateWaveCost()
     {   // Simple linear function for wave costs
-        waveCost = currentWave * 15 + 10;
+        waveCost = currentWave * 20 + 10;
     }
 
     private void checkEnemyUnlock()
@@ -163,5 +187,51 @@ public class GameManager : MonoBehaviour
         {
             return true;
         } return false;
+    }
+
+    private bool[] GetActiveEnemies()
+    {   // Method for calculating which enemies should be spawned on a given wave
+        bool[] returnArray = new bool[4];
+        if (currentWave % swarmerUnlockWave == 0)
+        {
+            returnArray[0] = true;
+        }
+        else returnArray[0] = false;
+
+        if (currentWave % eliteUnlockWave == 0)
+        {
+            returnArray[1] = true;
+        }
+        else returnArray[1] = false;
+
+        if (currentWave % tankUnlockWave == 0)
+        {
+            returnArray[2] = true;
+        }
+        else returnArray[2] = false;
+
+        if (currentWave % bossUnlockWave == 0)
+        {
+            returnArray[3] = true;
+        }
+        else returnArray[3] = false;
+
+        return returnArray;
+    }
+
+    private void CreateWaveBase()
+    {
+        CalculateWaveCost();
+        bool[] waveEnemies = GetActiveEnemies();
+        int enemyTypes = 1;
+        foreach (bool b in waveEnemies)
+        {
+            if (b == true)
+            {
+                enemyTypes++;
+            }
+        }
+        float waveSplit = waveCost/ (float)enemyTypes;
+
     }
 }

@@ -25,6 +25,7 @@ public class EnemyStats : MonoBehaviour
     private float deadTimer;        // Time before destroying enemy
     private float enemyScale;       // Scaling for enemy capsule size
 
+
     private void Awake()
     {
         // Generate stats for enemies based on wave
