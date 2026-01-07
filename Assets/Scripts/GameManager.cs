@@ -236,6 +236,35 @@ public class GameManager : MonoBehaviour
             }
         }
         float waveSplit = waveCost/ (float)enemyTypes;
+        int gruntCount = 0;
+        int swarmerCount = 0;
+        int elitecount = 0;
+        int tankCount = 0;
+        int bossCount = 0;
+        int remainder = 0;
+
+        gruntCount = (int)Mathf.Floor(waveSplit / gruntCost);
+        remainder += (int)waveSplit % gruntCost;
+        if (waveEnemies[0] == true)
+        {
+            swarmerCount = (int)Mathf.Floor(waveSplit / swarmerCost);
+            remainder += (int)waveSplit % swarmerCost;
+        }
+        if (waveEnemies[1] == true)
+        {
+            elitecount = (int)Mathf.Floor(waveSplit / eliteCost);
+            remainder += (int)waveSplit % eliteCost;
+        }
+        if (waveEnemies[2] == true)
+        {
+            tankCount = (int)Mathf.Floor(waveSplit / tankCost);
+            remainder += (int)waveSplit % tankCost;
+        }
+        if (waveEnemies[3] == true)
+        {
+            bossCount = (int)Mathf.Floor(waveSplit / bossCost);
+            remainder += (int)waveSplit % bossCost;
+        }
 
     }
 }
