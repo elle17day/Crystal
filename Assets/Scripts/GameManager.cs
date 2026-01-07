@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         currentState = GameStates.BuildPhase;
         playerMoney = 50;
         northEnabled = true;
-        currentWave = 1;
+        currentWave = 2;
         CalculateSpawnDelays();
         FlipGameState();
     }
@@ -163,9 +163,11 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.FightPhase;
                 waveStartTime = Time.time;
                 CreateWave();
+                Debug.Log("Now: " + currentState);
                 break;
             case GameStates.FightPhase:
                 currentState = GameStates.BuildPhase;
+                Debug.Log("Now: " + currentState);
                 break;
         }
     }
