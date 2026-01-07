@@ -1,5 +1,8 @@
 using UnityEngine;
 
+
+public enum enemyType { Grunt, Elite, Swarmer, Tank, Boss };
+
 public class EnemyStats : MonoBehaviour
 {
 
@@ -7,7 +10,6 @@ public class EnemyStats : MonoBehaviour
     private string alias;           // Name of enemy
     private bool isEnemy;           
 
-    public enum enemyType {Grunt,Elite,Swarmer,Tank,Boss};
     [SerializeField] private enemyType thisEnemy;
 
     private int waveCount;
@@ -33,18 +35,12 @@ public class EnemyStats : MonoBehaviour
         waveCount = GameManager.Instance.GetCurrentWave();
         objectRenderer = GetComponent<Renderer>();
 
-        GenerateStats(thisEnemy);   // Generate enemy stats
         enemyMat = Resources.Load("DebugAlive") as Material;
         deadMat = Resources.Load("DebugDead") as Material;
     }
 
     void Start()
     {
-        // Adds component to move enemy to crystal and modify stats in script
-        MonoBehaviour script = host.AddComponent<MoveToCrystal>();
-        script.SendMessage("SetSpeed", speed);
-        script.SendMessage("SetDamage", damage);
-
         // Modifies material of enemy
         objectRenderer.material = enemyMat;
         host.transform.localScale = new Vector3(enemyScale, enemyScale, enemyScale);
@@ -61,12 +57,19 @@ public class EnemyStats : MonoBehaviour
     {
         isDead = true; // Stops event being called multiple times
         host.GetComponent<MeshRenderer>().material = deadMat; // Change colour to show death
+        GameManager.Instance.ReduceEnemyCount();
         Destroy(this.gameObject, deadTimer);   // Destroys object after 3 seconds
     }
 
     public void ModifyEnemyType(enemyType newType)
     {   // Method for changing enemy type
         thisEnemy = newType;
+        GenerateStats(thisEnemy);   // Generate enemy stats
+
+        // Adds component to move enemy to crystal and modify stats in script
+        MonoBehaviour script = host.AddComponent<MoveToCrystal>();
+        script.SendMessage("SetSpeed", speed);
+        script.SendMessage("SetDamage", damage);
     }
 
     public void TakeDamage(float incomingDamage)

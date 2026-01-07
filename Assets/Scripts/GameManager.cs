@@ -64,11 +64,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bossUnlockWave = 10;
 
     // Variables for enemy spawning
-    private GameObject[] gruntEnemyArray;
-    private GameObject[] swarmerEnemyArray;
-    private GameObject[] eliteEnemyArray;
-    private GameObject[] tankEnemyArray;
-    private GameObject[] bossEnemyArray;
+    [SerializeField] private GameObject enemyBase;
+    private int enemyCount = 0;
     private float minSpawnDelay = 2.5f;
     private float maxSpawnDelay = 4f;
     private Vector3 cenSpwn1 = new Vector3(175, 2, 3);
@@ -84,6 +81,7 @@ public class GameManager : MonoBehaviour
         northEnabled = true;
         currentWave = 1;
         CalculateSpawnDelays();
+        SpawnBoss();
     }
 
 
@@ -134,10 +132,20 @@ public class GameManager : MonoBehaviour
         currentWave = i;
     }
 
+    public void ReduceEnemyCount()
+    {
+        enemyCount--;
+    }
+
+    public int GetEnemyCount()
+    {
+        return enemyCount;
+    }
+
     public void WaveIncrement()
     {   // Increments wave count and runs between wave functions
         currentWave++;
-        checkEnemyUnlock();
+        CheckEnemyUnlock();
     }
 
     public int GetPlayerMoney()
@@ -160,7 +168,7 @@ public class GameManager : MonoBehaviour
         waveCost = currentWave * 20 + 10;
     }
 
-    private void checkEnemyUnlock()
+    private void CheckEnemyUnlock()
     {   // Checks which enemies should be unlocked for the current wave
             // Could use (currentWave % x) for spawning every x waves
         if (currentWave >= gruntUnlockWave)
@@ -223,7 +231,7 @@ public class GameManager : MonoBehaviour
         return returnArray;
     }
 
-    private void CreateWaveBase()
+    private void CreateWave()
     {
         CalculateWaveCost();
         bool[] waveEnemies = GetActiveEnemies();
@@ -266,5 +274,51 @@ public class GameManager : MonoBehaviour
             remainder += (int)waveSplit % bossCost;
         }
 
+        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount;
+        
+        for (int i = 0; i < gruntCount; i++)
+        {
+            SpawnGrunt();
+        }
+    }
+
+    private void SpawnGrunt()
+    {
+        GameObject grunt = Instantiate(enemyBase);
+        grunt.transform.localPosition = cenSpwn3;
+        grunt.AddComponent<EnemyStats>();
+        grunt.SendMessage("ModifyEnemyType", enemyType.Grunt);
+    }
+
+    private void SpawnSwarmer()
+    {
+        GameObject swarmer = Instantiate(enemyBase);
+        swarmer.transform.localPosition = cenSpwn3;
+        swarmer.AddComponent<EnemyStats>();
+        swarmer.SendMessage("ModifyEnemyType", enemyType.Swarmer);
+    }
+
+    private void SpawnElite()
+    {
+        GameObject elite = Instantiate(enemyBase);
+        elite.transform.localPosition = cenSpwn3;
+        elite.AddComponent<EnemyStats>();
+        elite.SendMessage("ModifyEnemyType", enemyType.Elite);
+    }
+
+    private void SpawnTank()
+    {
+        GameObject tank = Instantiate(enemyBase);
+        tank.transform.localPosition = cenSpwn3;
+        tank.AddComponent<EnemyStats>();
+        tank.SendMessage("ModifyEnemyType", enemyType.Tank);
+    }
+
+    private void SpawnBoss()
+    {
+        GameObject boss = Instantiate(enemyBase);
+        boss.transform.localPosition = cenSpwn3;
+        boss.AddComponent<EnemyStats>();
+        boss.SendMessage("ModifyEnemyType", enemyType.Boss);
     }
 }

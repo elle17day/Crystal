@@ -29760,6 +29760,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2077832493}
+  - component: {fileID: 2077832494}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -29782,6 +29783,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2077832494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077832492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d16eb7b06774d46a0434b8c7e7e445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWave: 0
+  waveCost: 0
+  waveTimer: 0
+  playerMoney: 0
+  westEnabled: 0
+  northEnabled: 0
+  eastEnabled: 0
+  scatterLevel: 1
+  rapidFireLevel: 1
+  apLevel: 1
+  damageLevel: 1
+  gruntEnabled: 0
+  gruntCost: 3
+  gruntUnlockWave: 1
+  swarmerEnabled: 0
+  swarmerCost: 1
+  swarmerUnlockWave: 2
+  eliteEnabled: 0
+  eliteCost: 8
+  eliteUnlockWave: 3
+  tankEnabled: 0
+  tankCost: 15
+  tankUnlockWave: 5
+  bossEnabled: 0
+  bossCost: 20
+  bossUnlockWave: 10
+  enemyBase: {fileID: 6354592614770382328, guid: 175acdb6bbe72324bbd2b0a85ab13e4a, type: 3}
 --- !u!1001 &2079534501
 PrefabInstance:
   m_ObjectHideFlags: 0
