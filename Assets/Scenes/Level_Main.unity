@@ -29856,7 +29856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d16eb7b06774d46a0434b8c7e7e445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWave: 0
+  currentWave: 1
   waveCost: 0
   waveTimer: 0
   playerMoney: 0
