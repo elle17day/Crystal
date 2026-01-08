@@ -1,14 +1,11 @@
-using Unity.VisualScripting;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-<<<<<<< Updated upstream
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.Rendering.DebugUI.Table;
-=======
 using UnityEngine.UI;
->>>>>>> Stashed changes
 public class UIManager : MonoBehaviour
 {
+    // Create UI manager instance
+    public static UIManager Instance;
     public GameObject Pause_Screen;
     public GameObject PlayerUI;
     public GameObject Setting_Screen;
@@ -23,19 +20,6 @@ public class UIManager : MonoBehaviour
     public GameObject MultiPanel;
     public GameObject RepeaterPanel;
 
-<<<<<<< Updated upstream
-    public GameObject BasicCirclePanel;
-    public GameObject IcePanel;
-    public GameObject FirePanel;
-    public GameObject PoisenPanel;
-
-    public GameObject XButton;
-
-    private bool GamePaused;
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-=======
     private bool GamePaused;
     public GameObject Crystal;
     private void Awake()
@@ -58,7 +42,6 @@ public class UIManager : MonoBehaviour
         PlayerUI.SetActive(true);
         if (Title_Screen != null) Title_Screen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked; // Locks curser
->>>>>>> Stashed changes
     }
     public void PlayGame() // close titel screen and show Player UI
     {
@@ -67,6 +50,7 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
     public void StopGame()
     {
         Application.Quit();
@@ -87,23 +71,18 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-<<<<<<< Updated upstream
-        if (PlayerUI != true)
-=======
-        //HealthC = Crystal.GetComponent<Crystal>().
+        GetCrystalHealth = Crystal.GetComponent<Crystal>().GetCrystalHealth
 
         if (Input.GetKeyDown(KeyCode.Escape)) // Press escap for pause menu
->>>>>>> Stashed changes
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (GamePaused) Resume();
+            if (GamePaused) Resume();
                 else Pause();
-            }
         }
         if (Input.GetKeyDown(KeyCode.Q)) // show tower panels
         {
             if (BasicLinePanel != null) BasicLinePanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
     public void Pause()
@@ -115,6 +94,7 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None; // Unlock curser in pause menu
         Cursor.visible = true;
     }
+
     public void Resume()
     {
         if (Pause_Screen != null) Pause_Screen.SetActive(false);
@@ -128,18 +108,11 @@ public class UIManager : MonoBehaviour
 
     public void CloseButton() //Close Tower panels
     {
-        Cursor.lockState = CursorLockMode.None;
-        //if (BasicCirclePanel != null) 
-            BasicCirclePanel.SetActive(false);
-        //if (FirePanel != null)
-            FirePanel.SetActive(false);
-        //if (IcePanel != null) 
-            IcePanel.SetActive(false);
-        if (PoisenPanel != null) PoisenPanel.SetActive(false);
-        if (BasicLinePanel != null) BasicLinePanel.SetActive(false);
-        if (APPanel != null) APPanel.SetActive(false);
-        if (MultiPanel != null) MultiPanel.SetActive(false);
-        if (RepeaterPanel != null) RepeaterPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        BasicLinePanel.SetActive(false);
+        APPanel.SetActive(false);
+        MultiPanel.SetActive(false);
+        RepeaterPanel.SetActive(false);
 
     }
     public void MainMenu() // Return to main menu and close other panels
@@ -163,20 +136,5 @@ public class UIManager : MonoBehaviour
     public void RepeaterPanuel()
     {
         RepeaterPanel.SetActive(true);
-    }
-    public void IcePanuel()
-    {
-        IcePanel.SetActive(true);
-        if (BasicCirclePanel != null) BasicCirclePanel.SetActive(false);
-    }
-    public void FirePanuel()
-    {
-        FirePanel.SetActive(true);
-        if (BasicCirclePanel != null) BasicCirclePanel.SetActive(false);
-    }
-    public void PoisenPanuel()
-    {
-        PoisenPanel.SetActive(true);
-        if (BasicCirclePanel != null) BasicCirclePanel.SetActive(false);
     }
 }
