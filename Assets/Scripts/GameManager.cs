@@ -151,6 +151,8 @@ public class GameManager : MonoBehaviour
         {   // Checks wave has successfully been defeated
             // Make wave survived screen to display here
             FlipGameState();
+            WaveIncrement();
+            Debug.Log(currentWave);
         }
     }
 

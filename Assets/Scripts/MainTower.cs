@@ -3,10 +3,12 @@ using System.Linq;
 using UnityEngine;
 // using UnityEngine.Rendering;
 
+
+public enum State { Beam, Rapid, Scatter, ArmourPen }
+
 public class MainTower : MonoBehaviour
 {
     // Tower stats
-    public enum State { Beam, Rapid, Scatter, ArmourPen }
     private State state;
     private float damage = 20f;
     private float fireRate = 4f;
@@ -60,9 +62,9 @@ public class MainTower : MonoBehaviour
         {
             foreach (Collider enemy in enemiesList)
             {
-                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks an object is an enemy
+                if (enemy.GetComponent<EnemyStats>() != null)               // Checks an object is an enemy
                 {
-                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
+                    var enemyObject = enemy.GetComponent<EnemyStats>();     // Gets the enemy stat component
                     if (!enemyObject.IsDead())                                  // Checks enemy is alive
                     {
                         enemiesReturn.Add(enemy);                               // Adds enemy to return list
@@ -201,6 +203,7 @@ public class MainTower : MonoBehaviour
     public void ModifyTowerState(State type)
     {   // Changes tower states
         state = type;
+        GetTowersStats();
     }
 
 
