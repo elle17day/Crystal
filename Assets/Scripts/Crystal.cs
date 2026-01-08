@@ -16,7 +16,13 @@ public class Crystal : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private float health = 100;
+
+    public float GetCrystalHealth()
+    {
+        return health;
+    }
 
     public Vector3 GetCrystalLocation()
     {
