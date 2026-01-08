@@ -23,51 +23,53 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Player movement inputs
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
-
-        transform.Translate(Vector3.right * inputX * Time.deltaTime * speed);
-        transform.Translate(Vector3.forward * inputY * Time.deltaTime * speed);
-
-        
-        // Sprint code
-        if (Input.GetKey(KeyCode.LeftShift))
+        while (!UIManager.gameStart())
         {
-            speed = 10f;
-        }
-        else
-        {
-            speed = 5f;
-        }
+            // Player movement inputs
+            inputX = Input.GetAxis("Horizontal");
+            inputY = Input.GetAxis("Vertical");
 
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
-        {
-            rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
-        }
+            transform.Translate(Vector3.right * inputX * Time.deltaTime * speed);
+            transform.Translate(Vector3.forward * inputY * Time.deltaTime * speed);
 
-        // Attack/Interact
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if (isInUI == true)
+
+            // Sprint code
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                Debug.Log("Bad");
+                speed = 10f;
+            }
+            else
+            {
+                speed = 5f;
             }
 
-            else 
+            // Jump
+            if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
             {
-                RaycastHit hit;
-                // Does the ray intersect any objects excluding the player layer
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f , layerMask))
+                rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
+            }
 
+            // Attack/Interact
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                if (isInUI == true)
                 {
-                    // check if hits tower and display UI
-                    // check if hits enemy and have enemy take damage
+                    Debug.Log("Bad");
+                }
+
+                else
+                {
+                    RaycastHit hit;
+                    // Does the ray intersect any objects excluding the player layer
+                    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask))
+
+                    {
+                        // check if hits tower and display UI
+                        // check if hits enemy and have enemy take damage
+                    }
                 }
             }
         }
-
     }
 
     // Draw where the player hits

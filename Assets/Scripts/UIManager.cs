@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject RepeaterPanel;
 
     private bool GamePaused;
+    public bool isInUI = true;
     public GameObject Crystal;
     private void Awake()
     {
@@ -35,7 +36,16 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+    private void Start()
+    {
+        
+    }
+
+    public static bool gameStart()
+    {
+        bool isInUI = false;
+        return isInUI;
+    }
     public void RestartGame()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name); //reset game
@@ -47,6 +57,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerUI.SetActive(true);
         if (Title_Screen != null) Title_Screen.SetActive(false);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
