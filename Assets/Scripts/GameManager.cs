@@ -1,10 +1,10 @@
-using NUnit.Framework.Constraints;
-using System;
+// using NUnit.Framework.Constraints;
+//using System;
 using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
-using Unity.VisualScripting;
-using Unity.Mathematics;
+//using UnityEngine.Events;
+// using System.Collections;
+// using Unity.VisualScripting;
+//using Unity.Mathematics;
 
 
 public enum GameStates { BuildPhase, FightPhase };
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     int gruntSpawned = 0;
     int swarmerCount = 0;
     int swarmerSpawned = 0;
-    int elitecount = 0;
+    int eliteCount = 0;
     int eliteSpawned = 0;
     int tankCount = 0;
     int tankSpawned = 0;
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         currentState = GameStates.BuildPhase;
         playerMoney = 50;
         northEnabled = true;
-        currentWave = 2;
+        currentWave = 1;
         CalculateSpawnDelays();
         FlipGameState();
     }
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     {   // Checks game phase and sufficient time has passed between spawns
         if (currentState == GameStates.FightPhase && Time.time >= lastSpawnTime + nextSpawnDelay)
         {   // Switch for spawning enemies
-            enemyType nextSpawn = (enemyType)UnityEngine.Random.Range(0, 4);
+            enemyType nextSpawn = (enemyType)UnityEngine.Random.Range(0, 5);
             switch (nextSpawn) 
             {
                 case enemyType.Grunt:
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case enemyType.Elite:
-                    if (eliteSpawned < elitecount)
+                    if (eliteSpawned < eliteCount)
                     {
                         SpawnElite();
                         SetSpawnTimers();
@@ -278,26 +278,31 @@ public class GameManager : MonoBehaviour
     private bool[] GetActiveEnemies()
     {   // Method for calculating which enemies should be spawned on a given wave
         bool[] returnArray = new bool[4];
+        Debug.Log("Grunt active");
         if (currentWave % swarmerUnlockWave == 0)
         {
+            Debug.Log("Swarmer active");
             returnArray[0] = true;
         }
         else returnArray[0] = false;
 
         if (currentWave % eliteUnlockWave == 0)
         {
+            Debug.Log("Elite active");
             returnArray[1] = true;
         }
         else returnArray[1] = false;
 
         if (currentWave % tankUnlockWave == 0)
         {
+            Debug.Log("Tank active");
             returnArray[2] = true;
         }
         else returnArray[2] = false;
 
         if (currentWave % bossUnlockWave == 0)
         {
+            Debug.Log("Boss active");
             returnArray[3] = true;
         }
         else returnArray[3] = false;
@@ -315,6 +320,7 @@ public class GameManager : MonoBehaviour
             if (b == true)
             {
                 enemyTypes++;
+                Debug.Log(b);
             }
         }
         float waveSplit = waveCost/ (float)enemyTypes;  // Splits the wave cost between every enemy type
@@ -322,40 +328,45 @@ public class GameManager : MonoBehaviour
         // Resets enemy counters to 0
         gruntCount = 0;    
         swarmerCount = 0;
-        elitecount = 0;
+        eliteCount = 0;
         tankCount = 0;
         bossCount = 0;
         remainder = 0;
 
         // Always works out grunt counts and adds remainder to be spawned as swarmers
         gruntCount = (int)Mathf.Floor(waveSplit / gruntCost);
+        Debug.Log("Grunts this wave: " + gruntCount);
         remainder += (int)waveSplit % gruntCost;
 
         if (waveEnemies[0] == true)
         {   // If swarmer wave, works out amount of swarmers to spawn
             swarmerCount = (int)Mathf.Floor(waveSplit / swarmerCost);
+            Debug.Log("Swarmers this wave: " +  swarmerCount);
             remainder += (int)waveSplit % swarmerCost;
         }
         if (waveEnemies[1] == true)
         {   // If elite wave, works out amount of elites to spawn
-            elitecount = (int)Mathf.Floor(waveSplit / eliteCost);
+            eliteCount = (int)Mathf.Floor(waveSplit / eliteCost);
+            Debug.Log("Elite this wave: " + eliteCount);
             remainder += (int)waveSplit % eliteCost;
         }
         if (waveEnemies[2] == true)
         {   // If tank wave, works out amount of tanks to spawn
             tankCount = (int)Mathf.Floor(waveSplit / tankCost);
+            Debug.Log("Tank this wave: " + tankCount);
             remainder += (int)waveSplit % tankCost;
         }
         if (waveEnemies[3] == true)
         {   // If boss wave, works out amount of bosses to spawn
             bossCount = (int)Mathf.Floor(waveSplit / bossCost);
+            Debug.Log("Boss this wave: " + bossCount);
             remainder += (int)waveSplit % bossCost;
         }
 
         // Adds remainder to swarmer count
         swarmerCount += remainder;
         // Sets amount of enemies in the wave to work out when the wave has finished
-        enemyCount = gruntCount + swarmerCount + elitecount + tankCount + bossCount;
+        enemyCount = gruntCount + swarmerCount + eliteCount + tankCount + bossCount;
     }
 
     private Vector3 GetSpawnLoc()
