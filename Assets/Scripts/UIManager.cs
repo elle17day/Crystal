@@ -1,5 +1,6 @@
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
@@ -9,14 +10,18 @@ public class UIManager : MonoBehaviour
     public GameObject PlayerUI;
     public GameObject Setting_Screen;
     public GameObject Title_Screen;
+    public GameObject Info_Screen;
+    public GameObject GameOver;
+    public GameObject EndofLevel;
 
+    // Tower Panels
     public GameObject BasicLinePanel;
     public GameObject APPanel;
     public GameObject MultiPanel;
     public GameObject RepeaterPanel;
 
-    public GameObject XButton;
     private bool GamePaused;
+    public GameObject Crystal;
     private void Awake()
     {
         // If there is no instance yet, this is the one
@@ -31,19 +36,19 @@ public class UIManager : MonoBehaviour
         }
     }
     
-
-    
     public void RestartGame()
     {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name); //reset game
         PlayerUI.SetActive(true);
         if (Title_Screen != null) Title_Screen.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; // Locks curser
     }
-    public void PlayGame()
+    public void PlayGame() // close titel screen and show Player UI
     {
         PlayerUI.SetActive(true);
         if (Title_Screen != null) Title_Screen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void StopGame()
@@ -54,18 +59,26 @@ public class UIManager : MonoBehaviour
     {
         Setting_Screen.SetActive(true);
     }
-    public void Back()
+
+    public void InfoScreen()
+    {
+        Info_Screen.SetActive(true);
+    }
+    public void Back() //Close current panel
     {
         Setting_Screen.SetActive(false);
+        Info_Screen.SetActive(false);
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        //GetCrystalHealth = Crystal.GetComponent<Crystal>().GetCrystalHealth
+
+        if (Input.GetKeyDown(KeyCode.Escape)) // Press escap for pause menu
         {
             if (GamePaused) Resume();
                 else Pause();
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)) // show tower panels
         {
             if (BasicLinePanel != null) BasicLinePanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -74,14 +87,11 @@ public class UIManager : MonoBehaviour
     }
     public void Pause()
     {
-
         if (Pause_Screen != null) Pause_Screen.SetActive(true);
-
-        Time.timeScale = 0f;
+        Time.timeScale = 0f; //stop all movement
         GamePaused = true;
 
-        // Optional: Lock cursor for menus
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.None; // Unlock curser in pause menu
         Cursor.visible = true;
     }
 
@@ -92,12 +102,11 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f; // Resume game time
         GamePaused = false;
 
-        // Optional: Hide cursor for gameplay
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible = false; //Hide cursor for gameplay
     }
 
-    public void CloseButton()
+    public void CloseButton() //Close Tower panels
     {
         Cursor.lockState = CursorLockMode.Locked;
         BasicLinePanel.SetActive(false);
@@ -106,27 +115,26 @@ public class UIManager : MonoBehaviour
         RepeaterPanel.SetActive(false);
 
     }
-    public void MainMenu()
+    public void MainMenu() // Return to main menu and close other panels
     {
         Title_Screen.SetActive(true);
         if (Pause_Screen != null) Pause_Screen.SetActive(false);
         if (PlayerUI != null) PlayerUI.SetActive(false);
+        if (GameOver != null) GameOver.SetActive(false);
+        if (EndofLevel != null) EndofLevel.SetActive(false);
     }
     public void APPanuel()
     {
         APPanel.SetActive(true);
-        if (BasicLinePanel != null) BasicLinePanel.SetActive(false);
     }
 
     public void MultiPanuel()
     {
         MultiPanel.SetActive(true);
-        if (BasicLinePanel != null) BasicLinePanel.SetActive(false);
     }
 
     public void RepeaterPanuel()
     {
         RepeaterPanel.SetActive(true);
-        if (BasicLinePanel != null) BasicLinePanel.SetActive(false);
     }
 }
