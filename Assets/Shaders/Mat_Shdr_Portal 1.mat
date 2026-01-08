@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Shdr_Portal
-  m_Shader: {fileID: -6465566751694194690, guid: aa521a03d5a8dc34f8288deced016bd5, type: 3}
+  m_Name: Mat_Shdr_Portal 1
+  m_Shader: {fileID: -6465566751694194690, guid: 57fd6979bb1581a43935109551fe437e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -52,7 +52,7 @@ Material:
     - _TwirlScale: 2
     - _TwirlStrength: 15
     m_Colors:
-    - _Colour: {r: 1, g: 0, b: 0, a: 0}
+    - _Colour: {r: 0.42843318, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &292065439490242532

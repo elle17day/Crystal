@@ -1,46 +1,35 @@
-using NUnit.Framework;
-using System;
-using System.Linq;
-//using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Rendering;
 using System.Collections.Generic;
-using UnityEngine.Pool;
+using System.Linq;
+using UnityEngine;
+// using UnityEngine.Rendering;
 
-public class TestTower : MonoBehaviour
+
+public enum State { Beam, Rapid, Scatter, ArmourPen }
+
+public class MainTower : MonoBehaviour
 {
-    private enum State {Beam, Rapid, Scatter}
-    [SerializeField] private State state;
-    [SerializeField] private float damage = 20f;
-    [SerializeField] private float fireRate = 0.2f;
-    [SerializeField] private float range = 300f;
-    [SerializeField] private float armourPen = 0f;
-    [SerializeField] private int damageLevel = 1;
-    [SerializeField] private int fireRateLevel = 1;
-    [SerializeField] private int rangeLevel = 1;
-    [SerializeField] private int armourPenLevel = 1;
-    [SerializeField] private Material beamMat;
-    [SerializeField] private int scatterCount = 2;
+    // Tower stats
+    private State state;
+    private float damage = 20f;
+    private float fireRate = 4f;
+    private float rapidFireRate = 4f;
+    private float range = 300f;
+    private float armourPen = 0f;
+    private int scatterCount = 2;
+    private int damageLevel = 1;
+    private int armourPenLevel = 1;
+    private int scatterLevel = 0;
+    private float fireRateLevel = 1;
+    private Material beamMat;
 
     private float lastShotTime = 0;
     private Collider currentTarget;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+
     void Update()
-    {   /*
-        if (Time.time >= lastShotTime + fireRate)   // Waits fire rate time before shooting
-        {
-            RapidFireTower();                            // Shoots at enemy
-        }
-        */
-
-        if (Time.time >= lastShotTime + fireRate)
+    {   // Calls functions based on tower setting
+        if ((state != State.Rapid && Time.time >= lastShotTime + fireRate) || (state == State.Rapid && Time.time >= lastShotTime + rapidFireRate))
         {
             switch (state)
             {
@@ -55,16 +44,17 @@ public class TestTower : MonoBehaviour
                 case State.Scatter:
                     ScatterTower();
                     break;
+
+                case State.ArmourPen:
+                    ArmourPenTower();
+                    break;
             }
         }
- 
     }
 
 
-
-    // Function to get enemies in range
     private List<Collider> GetEnemiesInRange()
-    {
+    {   // Method to get enemies in range
         Collider[] enemies = Physics.OverlapSphere(transform.position, range);  // Gets array of enemies in range
         List<Collider> enemiesList = enemies.ToList();                          // Converts array to list
         List<Collider> enemiesReturn = new List<Collider>();                    // Creates list to be returned
@@ -72,9 +62,9 @@ public class TestTower : MonoBehaviour
         {
             foreach (Collider enemy in enemiesList)
             {
-                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks an object is an enemy
+                if (enemy.GetComponent<EnemyStats>() != null)               // Checks an object is an enemy
                 {
-                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
+                    var enemyObject = enemy.GetComponent<EnemyStats>();     // Gets the enemy stat component
                     if (!enemyObject.IsDead())                                  // Checks enemy is alive
                     {
                         enemiesReturn.Add(enemy);                               // Adds enemy to return list
@@ -82,9 +72,9 @@ public class TestTower : MonoBehaviour
                 }
             }
             if (enemiesReturn.Count > 0)    // Only returns list if enemies are present
-            { 
-                return enemiesReturn; 
-            } 
+            {
+                return enemiesReturn;
+            }
             else
             {
                 return null;
@@ -96,16 +86,16 @@ public class TestTower : MonoBehaviour
         }
     }
 
-    // Function to sort list by distance
+
     private Collider GetClosestEnemy(List<Collider> enemies)
-    {
+    {   // Method to sort list by distance
         List<Collider> returnEnemies = enemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList(); // Sorts list by distance from tower
         return returnEnemies[0];    // Returns first entry
     }
 
-    // Function for standard beam tower
+
     private void BeamTower()
-    {
+    {   // Method for beam tower
         if (GetEnemiesInRange() != null)
         {
             lastShotTime = Time.time;                                   // Updates last shot timer
@@ -116,18 +106,31 @@ public class TestTower : MonoBehaviour
         }
     }
 
-    // Function for rapid fire tower
+
+    private void ArmourPenTower()
+    {   // Method for beam tower
+        if (GetEnemiesInRange() != null)
+        {
+            lastShotTime = Time.time;                                   // Updates last shot timer
+            List<Collider> enemiesInRange = GetEnemiesInRange();        // Gets enemies in range
+            Collider closestEnemy = GetClosestEnemy(enemiesInRange);    // Gets closest enemy to tower
+            closestEnemy.SendMessage("TakeDamage", damage * armourPen);             // Makes enemy take damage
+            BeamEnemy(closestEnemy.transform.position);                 // Draws beam to enemy
+        }
+    }
+
+
     private void RapidFireTower()
-    {
+    {   // Method for rapid fire tower
         // Checks current target is dead or null
-        if (currentTarget ==  null || currentTarget.GetComponent<TestEnemyStats>().IsDead())
+        if (currentTarget == null || currentTarget.GetComponent<TestEnemyStats>().IsDead())
         {
             List<Collider> enemiesInRange = GetEnemiesInRange();    // Gets enemies in range
             if (enemiesInRange != null)                             // Checks enemies are in range
             {
                 currentTarget = GetClosestEnemy(enemiesInRange);        // Gets closest enemy to tower
             }
-        }   
+        }
         else
         {
             lastShotTime = Time.time;                           // Resets shoot timer
@@ -136,9 +139,9 @@ public class TestTower : MonoBehaviour
         }
     }
 
-    // Scatter tower hits multiple enemies simultaneously
+
     private void ScatterTower()
-    {
+    {   // Method for scatter tower shooting
         if (GetEnemiesInRange() != null)
         {
             lastShotTime = Time.time;                               // Updates last shot timer
@@ -167,9 +170,9 @@ public class TestTower : MonoBehaviour
         }
     }
 
-    // Function to attach beam to enemies
+
     private void BeamEnemy(Vector3 enemy)
-    {
+    {   // Method for drawing beams to enemies
         GameObject BeamHouse = new GameObject();                        // Creates empty object to house beam
         BeamHouse.transform.SetParent(gameObject.transform);            // Sets parent as tower
         LineRenderer beam = BeamHouse.AddComponent<LineRenderer>();     // Creates line renderer
@@ -183,9 +186,9 @@ public class TestTower : MonoBehaviour
         Destroy(BeamHouse, 0.3f);                                       // Destroy beam after time has passed
     }
 
-    // Function to check for duplicated enemeis in a list
+
     private bool DetectDuplicateTarget(List<Collider> list, Collider target)
-    {
+    {   // Method to check for duplicated enemeis in a list
         foreach (Collider c in list)    // Loops through list of enemies
         {
             if (c == target)            // Checks if each index is the enemy to check against
@@ -196,50 +199,29 @@ public class TestTower : MonoBehaviour
         return false;                   // If enemy not in list, return false
     }
 
-    // Increment stat levels
-    private void LevelDamage()
-    {
-        damageLevel++;
 
+    public void ModifyTowerState(State type)
+    {   // Changes tower states
+        state = type;
+        GetTowersStats();
     }
 
 
+    public void GetTowersStats()
+    {   // Modifies tower stats based on values from GameManager
+        int[] towerLevels = GameManager.Instance.GetTowerStats();
 
-    /*  Protoype tower code
-    void ShootClosest()
-    {
-        lastShotTime = Time.time;   // Updates last shot timer
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);   // Get list of game objects within range of tower
-        var listEnemies = enemiesInRange.ToList();  // Converts collider to list of enemies within range
-        var actEnemies = listEnemies.ToList();      // Creates an extra list to store actual enemies
-        actEnemies.Clear();                         // Clears list of actual enemies
-        if (listEnemies.Count > 0)  // Checks there is at least one enemy
-        {
-            foreach (var enemy in listEnemies)  // Iterates over list of enemies
-            {
-                if (enemy.GetComponent<TestEnemyStats>() != null)               // Checks enemy has a stat column
-                {
-                    Debug.Log(enemy.transform.name + " is enemy!");             // Debug line
-                    var enemyObject = enemy.GetComponent<TestEnemyStats>();     // Gets the enemy stat component
-                    if (!enemyObject.IsDead())                                  // Checks if enemy is dead
-                    {
-                        Debug.Log(enemy.transform.name + " is alive!");         // Debug line
-                        actEnemies.Add(enemy);                                  // Adds alive enemies to list of actual enemies
-                    }
-                }
-                if (enemy.GetComponent<TestEnemyStats>() == null)               // Debug lines to ensure all objects are checked
-                {
-                    Debug.Log(enemy.transform.name + " is not enemy!");
-                }
-            }
-            if (actEnemies.Count > 0)       // Checks for actual enemies
-            {
-                actEnemies = actEnemies.OrderBy(enemy => (enemy.transform.position - transform.position).sqrMagnitude).ToList();    // Orders enemies by distance
-                actEnemies[0].SendMessage("TakeDamage", damage);                                        // Makes first enemy in list take damage
-                Debug.Log("Enemy" + actEnemies[0].transform.name + " taking " + damage + " damage.");   // Debug line
-                BeamEnemy(actEnemies[0].transform.position);                                            // Draws beam for visuals
-            }
-        }
+        scatterLevel = towerLevels[0];
+        scatterCount = (int)(Mathf.Floor(scatterLevel / 5f + 1.8f));
+
+        fireRateLevel = towerLevels[1];
+        rapidFireRate = 2 * (2 / Mathf.Pow(fireRateLevel, 6 / 7)) + 0.2f;
+
+        armourPenLevel = towerLevels[2];
+        armourPen = 0.12f * armourPenLevel + 1.1f;
+
+        damageLevel = towerLevels[3];
+        damage = 10 * Mathf.Log(damageLevel) + 15;
     }
-*/
+
 }

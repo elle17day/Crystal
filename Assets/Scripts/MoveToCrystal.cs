@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+//using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,6 +27,7 @@ public class MoveToCrystal : MonoBehaviour
         if (!agent.pathPending && agent.remainingDistance <= 1f)
         {
             Crystal.Instance.DamageCrystal(damage); // Damages crystal
+            GameManager.Instance.ReduceEnemyCount();
             Destroy(Object);                        // Destroys object
         }
     }
