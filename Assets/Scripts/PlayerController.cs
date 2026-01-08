@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Player movement inputs
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
 
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(Vector3.forward * inputY * Time.deltaTime * speed);
 
         
-
+        // Sprint code
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed = 10f;
@@ -40,11 +41,13 @@ public class PlayerMovement : MonoBehaviour
             speed = 5f;
         }
 
+        // Jump
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
             rb.AddForce(Vector3.up * jumpAmount, ForceMode.Impulse);
         }
 
+        // Attack/Interact
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (isInUI == true)
@@ -60,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
 
                 {
                     // check if hits tower and display UI
-
                     // check if hits enemy and have enemy take damage
                 }
             }
@@ -68,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    // Draw where the player hits
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
