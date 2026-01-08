@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-        GetCrystalHealth = Crystal.GetComponent<Crystal>().GetCrystalHealth
+        //GetCrystalHealth = Crystal.GetComponent<Crystal>().GetCrystalHealth
 
         if (Input.GetKeyDown(KeyCode.Escape)) // Press escap for pause menu
         {
