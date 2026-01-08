@@ -75,25 +75,17 @@ public class UIManager : MonoBehaviour
     {
         Info_Screen.SetActive(true);
     }
-    public void Back() //Close current panel
+    public void Back() //Close current panel for Setting and Info
     {
         Setting_Screen.SetActive(false);
         Info_Screen.SetActive(false);
     }
     private void Update()
     {
-        //GetCrystalHealth = Crystal.GetComponent<Crystal>().GetCrystalHealth
-
         if (Input.GetKeyDown(KeyCode.Escape)) // Press escap for pause menu
         {
             if (GamePaused) Resume();
                 else Pause();
-        }
-        if (Input.GetKeyDown(KeyCode.Q)) // show tower panels
-        {
-            if (BasicLinePanel != null) BasicLinePanel.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
     }
     public void Pause()
@@ -133,6 +125,10 @@ public class UIManager : MonoBehaviour
         if (PlayerUI != null) PlayerUI.SetActive(false);
         if (GameOver != null) GameOver.SetActive(false);
         if (EndofLevel != null) EndofLevel.SetActive(false);
+    }
+    public void LinePanuel()
+    {
+        BasicLinePanel.SetActive(true);
     }
     public void APPanuel()
     {

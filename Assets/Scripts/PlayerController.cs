@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (isInUI == true)
                 {
-                    Debug.Log("Bad");
+                    
                 }
 
                 else
