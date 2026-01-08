@@ -1,6 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 
+/*
+ 
+Function of editor tool is to aid in the testing of
+planned levels within the game. It enables manipulating
+the levels of towers, when each enemy will spawn and
+how valuable those enemies are to each wave.
+
+ */
+
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : Editor
 {
