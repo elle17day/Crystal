@@ -23,8 +23,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while (!UIManager.gameStart())
-        {
             // Player movement inputs
             inputX = Input.GetAxis("Horizontal");
             inputY = Input.GetAxis("Vertical");
@@ -69,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-        }
     }
 
     // Draw where the player hits

@@ -25,6 +25,7 @@ public class MainTower : MonoBehaviour
     private float lastShotTime = 0;
     private Collider currentTarget;
 
+    public AudioClip laserSound;
 
 
     void Update()
@@ -183,6 +184,7 @@ public class MainTower : MonoBehaviour
 
         beam.SetPosition(0, gameObject.transform.position);             // Define start of beam from tower
         beam.SetPosition(1, enemy);                                     // Define end of beam to enemy
+        AudioManager.Instance.PlaySFX(laserSound);                      // Play laser sound
         Destroy(BeamHouse, 0.3f);                                       // Destroy beam after time has passed
     }
 

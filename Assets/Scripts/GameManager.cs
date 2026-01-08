@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     // Game States
     private GameStates currentState;
 
+    public AudioClip waveMusic;
+    public AudioClip waveStart;
+    public AudioClip waveStop;
+
     // Wave Metrics
     [SerializeField] private int currentWave;
     [SerializeField] private int waveCost;
@@ -165,10 +169,14 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.FightPhase;
                 waveStartTime = Time.time;
                 CreateWave();
+                AudioManager.Instance.PlayMusic(waveMusic);
+                AudioManager.Instance.PlayVoice(waveStart);
                 Debug.Log("Now: " + currentState);
                 break;
             case GameStates.FightPhase:
                 currentState = GameStates.BuildPhase;
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlayVoice(waveStop);
                 Debug.Log("Now: " + currentState);
                 break;
         }

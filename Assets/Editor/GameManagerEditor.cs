@@ -13,6 +13,10 @@ how valuable those enemies are to each wave.
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : Editor
 {
+    SerializedProperty waveMusicProp;
+    SerializedProperty waveStartProp;
+    SerializedProperty waveStopProp;
+
     SerializedProperty currentWaveProp;
     SerializedProperty waveCostProp;
     SerializedProperty playerMoneyProp;
@@ -43,6 +47,11 @@ public class GameManagerEditor : Editor
 
     private void OnEnable()
     {   // Finds values for all serialized values
+
+        waveMusicProp = serializedObject.FindProperty("waveMusic");
+        waveStartProp = serializedObject.FindProperty("waveStart");
+        waveStopProp = serializedObject.FindProperty("waveStop");
+
         currentWaveProp = serializedObject.FindProperty("currentWave");
         waveCostProp = serializedObject.FindProperty("waveCost");
         playerMoneyProp = serializedObject.FindProperty("playerMoney");
@@ -83,6 +92,15 @@ public class GameManagerEditor : Editor
         EditorGUILayout.LabelField("Game configuration tool", EditorStyles.boldLabel);
 
         EditorGUILayout.Space();
+
+
+        // Control audio clips for game events
+        EditorGUILayout.LabelField("Audio Settings", EditorStyles.boldLabel);
+
+        EditorGUILayout.PropertyField(waveMusicProp, new GUIContent("Wave music"));
+        EditorGUILayout.PropertyField(waveStartProp, new GUIContent("Wave start sound"));
+        EditorGUILayout.PropertyField(waveStopProp, new GUIContent("Wave stop sound"));
+
 
         // Control current wave at start of game
         EditorGUILayout.LabelField("Wave/Player Properties", EditorStyles.boldLabel);

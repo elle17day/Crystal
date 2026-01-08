@@ -22867,7 +22867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765181c9ef4b24d32a4f7cbd2ef370dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _variables: {fileID: 0}
 --- !u!114 &1588176729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22880,9 +22879,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data:
-    _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
-    _objectReferences: []
 --- !u!4 &1588176730
 Transform:
   m_ObjectHideFlags: 0
@@ -26903,6 +26899,7 @@ MonoBehaviour:
   APPanel: {fileID: 1894839227}
   MultiPanel: {fileID: 1894839226}
   RepeaterPanel: {fileID: 1894839225}
+  isInUI: 1
   Crystal: {fileID: 0}
 --- !u!4 &1884327912 stripped
 Transform:
@@ -29500,6 +29497,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 627700806813803448, guid: 8973d278752e1ac44a8f392b039ad7dd, type: 3}
   m_PrefabInstance: {fileID: 2046627539}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2048232142
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.7625284
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.7237546
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.674486
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408377880993427572, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046629395423105438, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faf8d971954ce2e469a87fa2322b66ef, type: 3}
 --- !u!4 &2049161879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8974210018182975859, guid: 8aaac2cbed66d7a438abe5d0466b786b, type: 3}
@@ -30188,6 +30242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d16eb7b06774d46a0434b8c7e7e445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveMusic: {fileID: 8300000, guid: 0e9dac0dd5ce40a4bbee32025556a241, type: 3}
+  waveStart: {fileID: 8300000, guid: 25297f855eb401748ab509c2506c33e5, type: 3}
+  waveStop: {fileID: 8300000, guid: b2791bc7fd7203540bbe69968cd30d3c, type: 3}
   currentWave: 1
   waveCost: 0
   waveTimer: 0
@@ -31222,3 +31279,4 @@ SceneRoots:
   - {fileID: 1588176730}
   - {fileID: 1894839224}
   - {fileID: 1882546965}
+  - {fileID: 2048232142}
