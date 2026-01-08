@@ -198,6 +198,26 @@ public class GameManager : MonoBehaviour
         return stats;
     }
 
+    public void IncrementScatter()
+    {   // Increments scatter level
+        scatterLevel++;
+    }
+
+    public void IncrementRapidFire()
+    {   // Increments rapid fire level
+        rapidFireLevel++;
+    }
+
+    public void IncrementAP()
+    {   // Increments AP level
+        apLevel++;
+    }
+
+    public void IncrementDamage()
+    {   // Increments damage level
+        damageLevel++;
+    }
+
     public int GetCurrentWave()
     {   // Returns current wave
         return currentWave;
